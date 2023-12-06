@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME=priorityqueue
+NAME=hashmap
 
 gcc $NAME.c -o $NAME.out
 ./$NAME.out

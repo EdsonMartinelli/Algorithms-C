@@ -1,85 +1,86 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Item
+typedef struct
 {
+    void *data;
     int key;
-};
+} Item;
 
-struct PriorityQueue
+typedef struct
 {
-    struct Item *queue;
+    Item *queue;
     int size;
     int capacity;
-};
+} PriorityQueue;
 
-void initializePriorityQueue(struct PriorityQueue *, int);
-void maxHeapifyBottomUp(struct PriorityQueue *, int);
-void maxHeapifyTopDown(struct PriorityQueue *, int);
-void add(struct PriorityQueue *, struct Item);
-struct Item extractMax(struct PriorityQueue *pq);
-void printQueue(struct PriorityQueue *);
-void freePriorityQueue(struct PriorityQueue *);
+void initializePriorityQueue(PriorityQueue *, int);
+// void maxHeapifyBottomUp(PriorityQueue *, int);
+void maxHeapifyBottomUp(PriorityQueue *, int, Item);
+// void maxHeapifyTopDown(PriorityQueue *, int);
+void maxHeapifyTopDown(PriorityQueue *, int, Item);
+void add(PriorityQueue *, Item);
+Item extractMax(PriorityQueue *pq);
+void printQueue(PriorityQueue *);
+void freePriorityQueue(PriorityQueue *);
 
 int main()
 {
-    struct PriorityQueue pq;
+    PriorityQueue pq;
     initializePriorityQueue(&pq, 10);
-    struct Item t = {.key = 1};
-    struct Item x = {.key = 2};
-    struct Item w = {.key = 3};
-    struct Item y = {.key = 4};
-    struct Item a = {.key = 5};
-    struct Item b = {.key = 6};
-    add(&pq, t);
-    add(&pq, x);
-    add(&pq, w);
-    add(&pq, y);
-    add(&pq, a);
-    add(&pq, b);
+    Item items[6];
+    for (int i = 0; i < 6; i++)
+        items[i] = (Item){.key = i + 1, .data = NULL};
+
+    for (int i = 0; i < 6; i++)
+        add(&pq, items[i]);
+
     printQueue(&pq);
-    struct Item e = extractMax(&pq);
-    printf("e: %i\n", e.key);
-    struct Item d = extractMax(&pq);
-    printf("e: %i\n", d.key);
-    struct Item f = extractMax(&pq);
-    printf("e: %i\n", f.key);
+    Item e1 = extractMax(&pq);
+    printf("extract item: %i\n", e1.key);
+    Item e2 = extractMax(&pq);
+    printf("extract item: %i\n", e2.key);
+    Item e3 = extractMax(&pq);
+    printf("extract item: %i\n", e3.key);
+    printQueue(&pq);
+    Item x = {.key = 10, .data = NULL};
+    add(&pq, x);
     printQueue(&pq);
     freePriorityQueue(&pq);
     return 0;
 }
 
-void initializePriorityQueue(struct PriorityQueue *pq, int cap)
+void initializePriorityQueue(PriorityQueue *pq, int cap)
 {
-    struct Item *queue = malloc(sizeof(struct Item) * cap);
-    (*pq) = (struct PriorityQueue){.queue = queue, .size = 0, .capacity = cap};
+    Item *queue = malloc(sizeof(Item) * cap);
+    if (queue == NULL)
+    {
+    }
+    (*pq) = (PriorityQueue){.queue = queue, .size = 0, .capacity = cap};
 }
 
-void printQueue(struct PriorityQueue *pq)
+void printQueue(PriorityQueue *pq)
 {
     for (int i = 0; i < (*pq).size; i++)
         printf("%i ", (*pq).queue[i].key);
     printf("\n");
 }
 
-void maxHeapifyBottomUp(struct PriorityQueue *pq, int index)
+void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item targetItem)
 {
     if (index > (*pq).size)
         return;
     int father = index % 2 == 0 ? (index / 2) - 1 : index / 2;
-    if (father < 0)
+    if (father < 0 || targetItem.key < (*pq).queue[father].key)
+    {
+        (*pq).queue[index] = targetItem;
         return;
-    if ((*pq).queue[index].key < (*pq).queue[father].key)
-        return;
-
-    struct Item temp = (*pq).queue[index];
+    }
     (*pq).queue[index] = (*pq).queue[father];
-    (*pq).queue[father] = temp;
-
-    maxHeapifyBottomUp(pq, father);
+    maxHeapifyBottomUp(pq, father, targetItem);
 }
 
-void maxHeapifyTopDown(struct PriorityQueue *pq, int index)
+void maxHeapifyTopDown(PriorityQueue *pq, int index, Item targetItem)
 {
     if (index > (*pq).size)
         return;
@@ -88,7 +89,7 @@ void maxHeapifyTopDown(struct PriorityQueue *pq, int index)
     int left = (index * 2) + 1;
     int right = (index * 2) + 2;
 
-    if (left < (*pq).size && (*pq).queue[left].key > (*pq).queue[max].key)
+    if (left < (*pq).size && (*pq).queue[left].key > targetItem.key)
     {
         max = left;
     }
@@ -97,34 +98,36 @@ void maxHeapifyTopDown(struct PriorityQueue *pq, int index)
         max = right;
 
     if (max == index)
+    {
+        (*pq).queue[max] = targetItem;
         return;
+    }
 
-    struct Item temp = (*pq).queue[index];
     (*pq).queue[index] = (*pq).queue[max];
-    (*pq).queue[max] = temp;
-    maxHeapifyTopDown(pq, max);
+    maxHeapifyTopDown(pq, max, targetItem);
 }
 
-void add(struct PriorityQueue *pq, struct Item item)
+void add(PriorityQueue *pq, Item item)
 {
     if ((*pq).size >= (*pq).capacity)
         return;
 
     (*pq).queue[(*pq).size] = item;
-    maxHeapifyBottomUp(pq, (*pq).size);
+    maxHeapifyBottomUp(pq, (*pq).size, (*pq).queue[(*pq).size]);
     (*pq).size++;
 }
 
-struct Item extractMax(struct PriorityQueue *pq)
+Item extractMax(PriorityQueue *pq)
 {
-    struct Item temp = (*pq).queue[0];
+    Item temp = (*pq).queue[0];
     (*pq).queue[0] = (*pq).queue[(*pq).size - 1];
     (*pq).queue[(*pq).size - 1] = temp;
     (*pq).size--;
-    maxHeapifyTopDown(pq, 0);
+    maxHeapifyTopDown(pq, 0, (*pq).queue[0]);
     return temp;
 }
-void freePriorityQueue(struct PriorityQueue *pq)
+
+void freePriorityQueue(PriorityQueue *pq)
 {
     free((*pq).queue);
 }
