@@ -2,5 +2,5 @@
 
 NAME=priorityqueue
 
-gcc $NAME.c -o $NAME.out
-./$NAME.out
+gcc main.c -o main.out implementation/priorityqueue.c
+./main.out

@@ -1,5 +1,5 @@
-#ifndef LINKEDLIST2_H
-#define LINKEDLIST2_H
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
 
 typedef struct Node
 {
@@ -25,4 +25,4 @@ LinkedListNode *popLast(LinkedList *);
 LinkedListNode *popWithIndex(LinkedList *, int);
 void printList(LinkedList list);
 
-#endif /* LINKEDLIST2_H */
+#endif

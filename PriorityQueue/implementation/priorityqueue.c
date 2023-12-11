@@ -1,61 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include "priorityqueue.h"
 
-typedef struct
+void initializePriorityQueue(PriorityQueue *pq, Item *queue, int cap)
 {
-    void *data;
-    int key;
-} Item;
-
-typedef struct
-{
-    Item *queue;
-    int size;
-    int capacity;
-} PriorityQueue;
-
-void initializePriorityQueue(PriorityQueue *, int);
-// void maxHeapifyBottomUp(PriorityQueue *, int);
-void maxHeapifyBottomUp(PriorityQueue *, int, Item);
-// void maxHeapifyTopDown(PriorityQueue *, int);
-void maxHeapifyTopDown(PriorityQueue *, int, Item);
-void add(PriorityQueue *, Item);
-Item extractMax(PriorityQueue *pq);
-void printQueue(PriorityQueue *);
-void freePriorityQueue(PriorityQueue *);
-
-int main()
-{
-    PriorityQueue pq;
-    initializePriorityQueue(&pq, 10);
-    Item items[6];
-    for (int i = 0; i < 6; i++)
-        items[i] = (Item){.key = i + 1, .data = NULL};
-
-    for (int i = 0; i < 6; i++)
-        add(&pq, items[i]);
-
-    printQueue(&pq);
-    Item e1 = extractMax(&pq);
-    printf("extract item: %i\n", e1.key);
-    Item e2 = extractMax(&pq);
-    printf("extract item: %i\n", e2.key);
-    Item e3 = extractMax(&pq);
-    printf("extract item: %i\n", e3.key);
-    printQueue(&pq);
-    Item x = {.key = 10, .data = NULL};
-    add(&pq, x);
-    printQueue(&pq);
-    freePriorityQueue(&pq);
-    return 0;
-}
-
-void initializePriorityQueue(PriorityQueue *pq, int cap)
-{
-    Item *queue = malloc(sizeof(Item) * cap);
-    if (queue == NULL)
-    {
-    }
     (*pq) = (PriorityQueue){.queue = queue, .size = 0, .capacity = cap};
 }
 
@@ -125,9 +72,4 @@ Item extractMax(PriorityQueue *pq)
     (*pq).size--;
     maxHeapifyTopDown(pq, 0, (*pq).queue[0]);
     return temp;
-}
-
-void freePriorityQueue(PriorityQueue *pq)
-{
-    free((*pq).queue);
 }
