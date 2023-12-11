@@ -1,164 +1,173 @@
 #include <stdio.h>
 #include "linkedlist.h"
 
-LinkedListNode createLinkedListNode(int value)
-{
-    LinkedListNode new = {.value = value, .next = NULL};
-    return new;
-}
-
 void initLinkedList(LinkedList *list)
 {
     *list = (LinkedList){.head = NULL, .tail = NULL, .size = 0};
 }
 
-void pushInTail(LinkedListNode *item, LinkedListNode **list)
+LinkedListNode *pushInHead(LinkedListNode *item, LinkedList *list)
 {
-    if (*list == NULL)
-    {
-        *list = item;
-        return;
-    }
+    (*item).previous = NULL;
+    item->next = (*list).head;
 
-    LinkedListNode *temp = *list;
-    while ((*temp).next != NULL)
-        temp = (*temp).next;
-    (*temp).next = item;
+    if ((*list).head != NULL)
+        (*(*list).head).previous = item;
+
+    if ((*list).size == 0 && (*list).tail == NULL)
+        (*list).tail = item;
+
+    (*list).head = item;
+    (*list).size++;
+    return item;
 }
 
-void pushInHead(LinkedListNode *item, LinkedListNode **list)
+LinkedListNode *pushInTail(LinkedListNode *item, LinkedList *list)
 {
-    item->next = *list;
-    *list = item;
+    (*item).next = NULL;
+    (*item).previous = (*list).tail;
+
+    if ((*list).tail != NULL)
+        (*(*list).tail).next = item;
+
+    if ((*list).size == 0 && (*list).head == NULL)
+        (*list).head = item;
+
+    (*list).tail = item;
+    (*list).size++;
+    return item;
 }
 
-void pushInOrderCrescent(LinkedListNode *item, LinkedListNode **list)
+LinkedListNode *pushInOrderCrescent(LinkedListNode *item, LinkedList *list)
 {
-    if (*list == NULL)
-    {
-        *list = item;
-        return;
-    }
+    (*item).previous = NULL;
+    (*item).next = NULL;
 
-    LinkedListNode *ant = NULL;
-    LinkedListNode *temp = *list;
-    while ((*temp).next != NULL && (*temp).value < (*item).value)
-    {
-        ant = temp;
+    if ((*list).size == 0)
+        return pushInHead(item, list);
+
+    LinkedListNode *temp = (*list).head;
+
+    while ((*temp).next != NULL && (*temp).value <= (*item).value)
         temp = (*temp).next;
-    }
 
-    if ((*temp).value < (*item).value)
-    {
-        (*temp).next = item;
-        return;
-    }
+    if ((*temp).next == NULL)
+        return pushInTail(item, list);
 
+    if ((*temp).previous == NULL)
+        return pushInHead(item, list);
+
+    (*(*temp).previous).next = item;
+
+    (*item).previous = (*temp).previous;
     (*item).next = temp;
-    if (ant == NULL)
-    {
-        *list = item;
-        return;
-    }
 
-    (*ant).next = item;
+    (*temp).previous = item;
+
+    (*list).size++;
+    return item;
 }
 
-void pushInOrderDecrescent(LinkedListNode *item, LinkedListNode **list)
+LinkedListNode *pushInOrderDecrescent(LinkedListNode *item, LinkedList *list)
 {
-    if (*list == NULL)
-    {
-        *list = item;
-        return;
-    }
+    (*item).previous = NULL;
+    (*item).next = NULL;
 
-    LinkedListNode *ant = NULL;
-    LinkedListNode *temp = *list;
-    while ((*temp).next != NULL && (*temp).value > (*item).value)
-    {
-        ant = temp;
+    if ((*list).size == 0)
+        return pushInHead(item, list);
+
+    LinkedListNode *temp = (*list).head;
+
+    while ((*temp).next != NULL && (*temp).value >= (*item).value)
         temp = (*temp).next;
-    }
 
-    if ((*temp).value > (*item).value)
-    {
-        (*temp).next = item;
-        return;
-    }
+    if ((*temp).next == NULL)
+        return pushInTail(item, list);
 
+    if ((*temp).previous == NULL)
+        return pushInHead(item, list);
+
+    (*(*temp).previous).next = item;
+
+    (*item).previous = (*temp).previous;
     (*item).next = temp;
-    if (ant == NULL)
-    {
-        *list = item;
-        return;
-    }
 
-    (*ant).next = item;
+    (*temp).previous = item;
+
+    (*list).size++;
+    return item;
 }
 
-void popFirst(LinkedListNode **list)
+LinkedListNode *popFirst(LinkedList *list)
 {
-    if (*list != NULL)
-    {
-        LinkedListNode *newHead = (**list).next;
-        *list = newHead;
-    }
+    if ((*list).size == 0 && (*list).head == NULL)
+        return NULL;
+
+    LinkedListNode *p = (*list).head;
+    (*list).head = (*(*list).head).next;
+
+    if ((*list).head != NULL)
+        (*(*list).head).previous = NULL;
+    else
+        (*list).tail = NULL;
+
+    (*list).size--;
+    return p;
 }
 
-void popLast(LinkedListNode **list)
+LinkedListNode *popLast(LinkedList *list)
 {
-    LinkedListNode *ant = NULL;
-    LinkedListNode *temp = *list;
+    if ((*list).size == 0 && (*list).tail == NULL)
+        return NULL;
 
-    if (temp == NULL)
-        return;
+    LinkedListNode *p = (*list).tail;
+    (*list).tail = (*(*list).tail).previous;
 
-    while ((*temp).next != NULL)
-    {
-        ant = temp;
-        temp = (*temp).next;
-    }
+    if ((*list).tail != NULL)
+        (*(*list).tail).next = NULL;
+    else
+        (*list).head = NULL;
 
-    if (ant == NULL)
-    {
-        *list = NULL;
-        return;
-    }
-
-    (*ant).next = NULL;
+    (*list).size--;
+    return p;
 }
 
-void popWithIndex(LinkedListNode **list, int index)
+LinkedListNode *popWithIndex(LinkedList *list, int index)
 {
-    LinkedListNode *ant = NULL;
-    LinkedListNode *temp = *list;
+    if ((*list).size == 0)
+        return NULL;
 
-    if (temp == NULL)
-        return;
+    LinkedListNode *temp = (*list).head;
 
     while ((*temp).next != NULL && index > 0)
     {
-        ant = temp;
         temp = (*temp).next;
         index--;
     }
 
     if (index > 0)
-        return;
+        return NULL;
 
-    if (ant == NULL)
-    {
-        *list = (*temp).next;
-        return;
-    }
-    (*ant).next = (*temp).next;
+    if ((*temp).next == NULL)
+        return popLast(list);
+
+    if ((*temp).previous == NULL)
+        return popFirst(list);
+
+    (*(*temp).next).previous = (*temp).previous;
+    (*(*temp).previous).next = (*temp).next;
+    (*list).size--;
+    return temp;
 }
 
-void printList(LinkedListNode *list)
+void printList(LinkedList list)
 {
-    while (list != NULL)
+    LinkedListNode *temp = list.head;
+    if (temp == NULL)
+        printf("Empty List\n");
+    while (temp != NULL)
     {
-        printf("%d \n", (*list).value);
-        list = (*list).next;
+        printf("Value: %d; Previous: %i; Next: %i \n", (*temp).value, (*temp).previous == NULL ? -1 : (*(*temp).previous).value, (*temp).next == NULL ? -1 : (*(*temp).next).value);
+        temp = (*temp).next;
     }
 }

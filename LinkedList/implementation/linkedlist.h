@@ -1,9 +1,10 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
+#ifndef LINKEDLIST2_H
+#define LINKEDLIST2_H
 
 typedef struct Node
 {
     int value;
+    struct Node *previous;
     struct Node *next;
 } LinkedListNode;
 
@@ -14,14 +15,14 @@ typedef struct
     int size;
 } LinkedList;
 
-LinkedListNode createLinkedListNode(int);
-void pushInTail(LinkedListNode *, LinkedListNode **);
-void pushInHead(LinkedListNode *, LinkedListNode **);
-void pushInOrderCrescent(LinkedListNode *, LinkedListNode **);
-void pushInOrderDecrescent(LinkedListNode *, LinkedListNode **);
-void popFirst(LinkedListNode **);
-void popLast(LinkedListNode **);
-void popWithIndex(LinkedListNode **, int);
-void printList(LinkedListNode *);
+void initLinkedList(LinkedList *list);
+LinkedListNode *pushInHead(LinkedListNode *, LinkedList *);
+LinkedListNode *pushInTail(LinkedListNode *, LinkedList *);
+LinkedListNode *pushInOrderCrescent(LinkedListNode *, LinkedList *);
+LinkedListNode *pushInOrderDecrescent(LinkedListNode *, LinkedList *);
+LinkedListNode *popFirst(LinkedList *);
+LinkedListNode *popLast(LinkedList *);
+LinkedListNode *popWithIndex(LinkedList *, int);
+void printList(LinkedList list);
 
-#endif /* LINKEDLIST_H */
+#endif /* LINKEDLIST2_H */

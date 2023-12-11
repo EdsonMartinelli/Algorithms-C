@@ -2,6 +2,6 @@
 
 NAME=linkedlist 
 
-gcc mainListStruct.c -o main2.out implementationListStruct/$NAME.c
+gcc main.c -o main.out implementation/$NAME.c
 
-./main2.out
+./main.out
