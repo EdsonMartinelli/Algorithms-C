@@ -1,4 +1,7 @@
 #!/bin/bash
 
-gcc linkedlist.c -o linkedlist.out
-./linkedlist.out
+NAME=linkedlist 
+
+gcc mainListStruct.c -o main2.out implementationListStruct/$NAME.c
+
+./main2.out
