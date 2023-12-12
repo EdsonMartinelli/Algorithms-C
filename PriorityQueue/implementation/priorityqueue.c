@@ -1,24 +1,25 @@
 #include <stdio.h>
 #include "priorityqueue.h"
 
-void initializePriorityQueue(PriorityQueue *pq, Item *queue, int cap)
+void initPriorityQueue(PriorityQueue *pq, Item **queue, int cap)
 {
     (*pq) = (PriorityQueue){.queue = queue, .size = 0, .capacity = cap};
 }
 
-void printQueue(PriorityQueue *pq)
+void printPriorityQueue(PriorityQueue *pq)
 {
     for (int i = 0; i < (*pq).size; i++)
-        printf("%i ", (*pq).queue[i].key);
+        printf("%i ", (*(*pq).queue[i]).key);
     printf("\n");
 }
 
-void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item targetItem)
+void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item *targetItem)
 {
+    int x = (*targetItem).key;
     if (index > (*pq).size)
         return;
     int father = index % 2 == 0 ? (index / 2) - 1 : index / 2;
-    if (father < 0 || targetItem.key < (*pq).queue[father].key)
+    if (father < 0 || (*targetItem).key < (*(*pq).queue[father]).key)
     {
         (*pq).queue[index] = targetItem;
         return;
@@ -27,7 +28,7 @@ void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item targetItem)
     maxHeapifyBottomUp(pq, father, targetItem);
 }
 
-void maxHeapifyTopDown(PriorityQueue *pq, int index, Item targetItem)
+void maxHeapifyTopDown(PriorityQueue *pq, int index, Item *targetItem)
 {
     if (index > (*pq).size)
         return;
@@ -36,12 +37,12 @@ void maxHeapifyTopDown(PriorityQueue *pq, int index, Item targetItem)
     int left = (index * 2) + 1;
     int right = (index * 2) + 2;
 
-    if (left < (*pq).size && (*pq).queue[left].key > targetItem.key)
+    if (left < (*pq).size && (*(*pq).queue[left]).key > (*targetItem).key)
     {
         max = left;
     }
 
-    if (right < (*pq).size && (*pq).queue[right].key > (*pq).queue[left].key)
+    if (right < (*pq).size && (*(*pq).queue[right]).key > (*(*pq).queue[left]).key)
         max = right;
 
     if (max == index)
@@ -54,19 +55,20 @@ void maxHeapifyTopDown(PriorityQueue *pq, int index, Item targetItem)
     maxHeapifyTopDown(pq, max, targetItem);
 }
 
-void add(PriorityQueue *pq, Item item)
+Item *addPriorityQueue(PriorityQueue *pq, Item *item)
 {
     if ((*pq).size >= (*pq).capacity)
-        return;
+        return NULL;
 
     (*pq).queue[(*pq).size] = item;
     maxHeapifyBottomUp(pq, (*pq).size, (*pq).queue[(*pq).size]);
     (*pq).size++;
+    return item;
 }
 
-Item extractMax(PriorityQueue *pq)
+Item *extractMaxPriorityQueue(PriorityQueue *pq)
 {
-    Item temp = (*pq).queue[0];
+    Item *temp = (*pq).queue[0];
     (*pq).queue[0] = (*pq).queue[(*pq).size - 1];
     (*pq).queue[(*pq).size - 1] = temp;
     (*pq).size--;

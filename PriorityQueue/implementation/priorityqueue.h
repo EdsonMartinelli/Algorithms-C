@@ -9,16 +9,16 @@ typedef struct
 
 typedef struct
 {
-    Item *queue;
+    Item **queue;
     int size;
     int capacity;
 } PriorityQueue;
 
-void initializePriorityQueue(PriorityQueue *, Item *, int);
-void maxHeapifyBottomUp(PriorityQueue *, int, Item);
-void maxHeapifyTopDown(PriorityQueue *, int, Item);
-void add(PriorityQueue *, Item);
-Item extractMax(PriorityQueue *pq);
-void printQueue(PriorityQueue *);
+void initPriorityQueue(PriorityQueue *, Item **, int);
+void maxHeapifyBottomUp(PriorityQueue *, int, Item *);
+void maxHeapifyTopDown(PriorityQueue *, int, Item *);
+Item *addPriorityQueue(PriorityQueue *, Item *);
+Item *extractMaxPriorityQueue(PriorityQueue *);
+void printPriorityQueue(PriorityQueue *);
 
 #endif
