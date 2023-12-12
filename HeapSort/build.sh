@@ -1,4 +1,5 @@
 #!/bin/bash
 
-gcc heapsort.c -o heapsort.out
-./heapsort.out
+NAME=heapsort
+gcc main.c -o main.out implementation/$NAME.c
+./main.out
