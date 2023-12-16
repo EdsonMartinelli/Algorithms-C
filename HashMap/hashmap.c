@@ -2,20 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../LinkedList/implementation/linkedlist.h"
-;
 
 typedef struct
 {
-    LinkedList **array;
+    char *key;
+    int value;
+} HashItem;
+
+typedef struct
+{
+    LinkedList *array;
     int size;
     int capacity;
 } HashMap;
 
 void initializeHashMap(HashMap *hm)
 {
-    LinkedList **array = malloc(sizeof(LinkedList *) * 16);
-    /* for (int i = 0; i < 16; i++)
-         array[i] = NULL;*/
+    LinkedList *array = malloc(sizeof(LinkedList) * 16);
     memset(array, 0, 16);
     (*hm) = (HashMap){.array = array, .size = 0, .capacity = 16};
 }
@@ -35,28 +38,44 @@ int hashFuncion(HashMap *hm, char *word)
 LinkedListNode *addHashMap(HashMap *hm, char *key, int value)
 {
     LinkedListNode *item = malloc(sizeof(LinkedListNode));
-    item->value = value;
+    HashItem *info = malloc(sizeof(HashItem));
+    *info = (HashItem){.key = key, .value = value};
+    item->content = info;
     int location = hashFuncion(hm, key);
-    if (hm->array[location] != NULL)
+    if (hm->array[location].head != NULL)
     {
         printf("COLLISION\n");
-        pushInTail(item, hm->array[location]);
+        pushInTail(&(hm->array[location]), item);
         return item;
     }
 
-    hm->array[location] = malloc(sizeof(LinkedList));
-    initLinkedList(hm->array[location]);
-    pushInTail(item, hm->array[location]);
+    initLinkedList(&(hm->array[location]));
+    pushInTail(&(hm->array[location]), item);
     hm->size++;
     return item;
 }
 
-LinkedListNode *getHashMap(HashMap *hm, char *key)
+HashItem *getHashMap(HashMap *hm, char *key)
 {
     int location = hashFuncion(hm, key);
-    if (hm->array[location] == NULL)
-        return NULL;
-    return hm->array[location]->head;
+    LinkedListNode *item = (hm->array[location].head);
+    while (item != NULL)
+    {
+        printf("Key Value: %s\n", ((HashItem *)(item->content))->key);
+        if (strcmp(((HashItem *)(item->content))->key, key) == 0)
+            return (HashItem *)item->content;
+
+        item = (*item).next;
+    }
+
+    return NULL;
+}
+
+void freeItem(LinkedListNode *item)
+{
+    HashItem *x = item->content;
+    free(x);
+    free(item);
 }
 
 int main()
@@ -70,19 +89,17 @@ int main()
     LinkedListNode *o = addHashMap(&x, "sofrimentosdfaasdfasdfasdfsadfsadfsvvsdfasdfsadfsdfa", 100);
     for (int i = 0; i < 16; i++)
     {
-        if (x.array[i] == NULL)
+        if (x.array[i].head == NULL)
             printf("NULL \n");
         else
-            printf("%i\n", (*(*x.array[i]).head).value);
+            printf("%i\n", ((HashItem *)(*x.array[i].head).content)->value);
     }
-    printf("Get Value: %i\n", (*getHashMap(&x, "teste")).value);
-    free(i);
-    free(y);
-    free(u);
-    free(k);
-    free(o);
-    for (int i = 0; i < x.capacity; i++)
-        free(x.array[i]);
+    printf("Get Value: %i\n", (*getHashMap(&x, "dor")).value);
+    freeItem(i);
+    freeItem(y);
+    freeItem(u);
+    freeItem(k);
+    freeItem(o);
     free(x.array);
     return 0;
 }
