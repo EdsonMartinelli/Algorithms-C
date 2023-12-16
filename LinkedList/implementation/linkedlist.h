@@ -3,7 +3,8 @@
 
 typedef struct Node
 {
-    int value;
+    // int value;
+    void *content;
     struct Node *previous;
     struct Node *next;
 } LinkedListNode;
@@ -16,13 +17,16 @@ typedef struct
 } LinkedList;
 
 void initLinkedList(LinkedList *list);
-LinkedListNode *pushInHead(LinkedListNode *, LinkedList *);
-LinkedListNode *pushInTail(LinkedListNode *, LinkedList *);
-LinkedListNode *pushInOrderCrescent(LinkedListNode *, LinkedList *);
-LinkedListNode *pushInOrderDecrescent(LinkedListNode *, LinkedList *);
+LinkedListNode *pushInHead(LinkedList *, LinkedListNode *);
+LinkedListNode *pushInTail(LinkedList *, LinkedListNode *);
+LinkedListNode *pushInOrderCrescent(LinkedList *, LinkedListNode *, int (*comparator)(LinkedListNode *, LinkedListNode *));
+LinkedListNode *pushInOrderDecrescent(LinkedList *, LinkedListNode *, int (*comparator)(LinkedListNode *, LinkedListNode *));
 LinkedListNode *popFirst(LinkedList *);
 LinkedListNode *popLast(LinkedList *);
 LinkedListNode *popWithIndex(LinkedList *, int);
-void printList(LinkedList list);
+LinkedListNode *getFirst(LinkedList *);
+LinkedListNode *getLast(LinkedList *);
+LinkedListNode *getWithIndex(LinkedList *, int);
+void printList(LinkedList list, void (*printer)(LinkedListNode));
 
 #endif
