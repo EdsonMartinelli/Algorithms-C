@@ -1,6 +1,9 @@
 #!/bin/bash
 
-NAME=hashmap
+IMPLEMENTATIONS=(
+    "../LinkedList/implementation/linkedlist.c"
+    "./implementation/hashmap.c"
+)
 
-gcc $NAME.c -o $NAME.out ../LinkedList/implementation/linkedlist.c
-./$NAME.out
+gcc main.c -o main.out ${IMPLEMENTATIONS[*]}
+./main.out
