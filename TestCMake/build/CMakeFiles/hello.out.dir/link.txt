@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/hello.out.dir/hello.c.o -o /mnt/c/Users/Edson/Desktop/C/TestCMake/outputs/hello.out 
