@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/teste.out.dir/teste.c.o -o /mnt/c/Users/Edson/Desktop/C/TestCMake/outputs/teste.out 
