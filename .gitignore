@@ -1,6 +1,6 @@
 /**/*.out
 
-**/build/*
+**/build/**/*
 **/outputs/*
 
 /Test
