@@ -1,0 +1,4 @@
+/mnt/c/Users/Edson/Desktop/C/TestCMake/build/CMakeFiles/hello.out.dir
+/mnt/c/Users/Edson/Desktop/C/TestCMake/build/CMakeFiles/teste.out.dir
+/mnt/c/Users/Edson/Desktop/C/TestCMake/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Edson/Desktop/C/TestCMake/build/CMakeFiles/rebuild_cache.dir
