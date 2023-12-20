@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.28)
+project(alib LANGUAGES C)
+
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Static Library 
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Shared Library
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)   # Executables
+
+message(STATUS "[STARTING] PROJECT")
+
+add_subdirectory(src/HashMap)
+add_subdirectory(src/HeapSort)
+add_subdirectory(src/LinkedList)
+add_subdirectory(src/PriorityQueue)
+
+message(STATUS "[FINISHED] PROJECT")
+

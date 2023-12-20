@@ -17,7 +17,7 @@ int main()
     for (int i = 0; i < 6; i++)
         addPriorityQueue(&pq, &items[i]);
 
-    printQueue(&pq);
+    printPriorityQueue(&pq);
     Item *e1 = extractMaxPriorityQueue(&pq);
     printf("extract item: %i\n", (*e1).key);
     Item *e2 = extractMaxPriorityQueue(&pq);
