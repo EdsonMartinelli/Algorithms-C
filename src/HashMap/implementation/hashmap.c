@@ -3,11 +3,56 @@
 #include <string.h>
 #include "hashmap.h"
 
+#define INIT_ARRAY_SIZE 4
+
+// PRIVATE FUNCTIONS
+int hashFuncion(HashMap *, char *);
+void verifyLoad(HashMap *);
+void expandArray(HashMap *);
+void reallocateData(HashMap *); /* Need Implementation: Pass for every Node in every
+                                   position of LinkedList and realloc item for the correct
+                                   position in new array; */
+
 void initializeHashMap(HashMap *hm)
 {
-    LinkedList *array = malloc(sizeof(LinkedList) * INIT_ARRAY_SIZE);
-    memset(array, 0, INIT_ARRAY_SIZE);
+    LinkedList *array = (LinkedList *)malloc(sizeof(LinkedList) * INIT_ARRAY_SIZE);
+    if (array == NULL)
+    {
+        printf("Memory Allocate Failure.");
+        exit(EXIT_FAILURE);
+    }
+    // memset(array, 0, sizeof(LinkedList) * INIT_ARRAY_SIZE);
+    for (int i = 0; i < INIT_ARRAY_SIZE; i++)
+        initLinkedList(&array[i]);
     (*hm) = (HashMap){.array = array, .size = 0, .capacity = INIT_ARRAY_SIZE};
+}
+
+void expandArray(HashMap *hm)
+{
+    LinkedList *newArray = realloc(hm->array, sizeof(LinkedList) * hm->capacity * 2);
+    if (newArray == NULL)
+    {
+        printf("Memory Allocate Failure.");
+        exit(EXIT_FAILURE);
+    }
+    for (int i = hm->capacity; i < hm->capacity * 2; i++)
+        initLinkedList(&newArray[i]);
+    hm->array = newArray;
+    hm->capacity = hm->capacity * 2;
+}
+
+void verifyLoad(HashMap *hm)
+{
+    float loadFactor = 0.75;
+    float currentLoad = hm->size / (float)hm->capacity;
+
+    if (currentLoad >= loadFactor)
+    {
+        printf("Size: %i; ", hm->size);
+        printf("Capacity: %i; ", hm->capacity);
+        printf("Expanding Array...\n");
+        expandArray(hm);
+    }
 }
 
 int hashFuncion(HashMap *hm, char *word)
@@ -18,41 +63,55 @@ int hashFuncion(HashMap *hm, char *word)
         hash = p * hash + word[i];
     hash = hash % (*hm).capacity;
     int result = hash < 0 ? hash + (*hm).capacity : hash;
-    printf("Hash for %s is: %i \n", word, result);
     return result;
 }
 
-LinkedListNode *addHashMap(HashMap *hm, char *key, int value)
+HashItem *addHashMap(HashMap *hm, char *key, int value)
 {
-    LinkedListNode *item = malloc(sizeof(LinkedListNode));
-    HashItem *info = malloc(sizeof(HashItem));
-    *info = (HashItem){.key = key, .value = value};
-    item->content = info;
-    int location = hashFuncion(hm, key);
-    if (hm->array[location].head != NULL)
+
+    HashItem *info = (HashItem *)malloc(sizeof(HashItem));
+    if (info == NULL)
     {
-        printf("COLLISION\n");
-        LinkedListNode *temp = (hm->array[location].head);
-        while (temp != NULL)
+        printf("Memory Allocate Failure.");
+        exit(EXIT_FAILURE);
+    }
+    *info = (HashItem){.key = key, .value = value};
+    int location = hashFuncion(hm, key);
+
+    printf("Key: %s; Data: %i; Location: %i; ", key, value, location);
+    if (hm->array[location].head == NULL)
+        hm->size++;
+
+    if (hm->array[location].head != NULL)
+        printf("COLLISION: ");
+
+    LinkedListNode *temp = (hm->array[location].head);
+    while (temp != NULL)
+    {
+        if (strcmp(((HashItem *)(temp->content))->key, key) == 0)
         {
-            if (strcmp(((HashItem *)(temp->content))->key, key) == 0)
-            {
-                printf("Key already used: Replacing data;\n");
-                free(item);
-                free(temp->content);
-                temp->content = info;
-                return temp;
-            }
-            temp = (*temp).next;
+            printf("Key already used (%s) - Replacing data\n", key);
+            free(temp->content);
+            temp->content = info;
+            return info;
         }
-        pushInTail(&(hm->array[location]), item);
-        return item;
+        temp = (*temp).next;
     }
 
-    initLinkedList(&(hm->array[location]));
+    if (hm->array[location].head != NULL)
+        printf("New Key (%s) - Adding data", key);
+
+    LinkedListNode *item = malloc(sizeof(LinkedListNode));
+    if (item == NULL)
+    {
+        printf("Memory Allocate Failure.");
+        exit(EXIT_FAILURE);
+    }
+    item->content = info;
     pushInTail(&(hm->array[location]), item);
-    hm->size++;
-    return item;
+    printf("\n");
+    verifyLoad(hm);
+    return info;
 }
 
 HashItem *getHashMap(HashMap *hm, char *key)
@@ -61,7 +120,6 @@ HashItem *getHashMap(HashMap *hm, char *key)
     LinkedListNode *item = (hm->array[location].head);
     while (item != NULL)
     {
-        // printf("Key Value: %s\n", ((HashItem *)(item->content))->key);
         if (strcmp(((HashItem *)(item->content))->key, key) == 0)
             return (HashItem *)item->content;
 

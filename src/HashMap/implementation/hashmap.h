@@ -3,8 +3,6 @@
 
 #include "../../LinkedList/implementation/linkedlist.h"
 
-#define INIT_ARRAY_SIZE 16
-
 typedef struct
 {
     char *key;
@@ -19,7 +17,7 @@ typedef struct
 } HashMap;
 
 void initializeHashMap(HashMap *);
-LinkedListNode *addHashMap(HashMap *, char *, int);
+HashItem *addHashMap(HashMap *, char *, int);
 HashItem *getHashMap(HashMap *, char *);
 void freeHashMap(HashMap *);
 
