@@ -166,6 +166,21 @@ LinkedListNode *popWithIndex(LinkedList *list, int index)
     return temp;
 }
 
+LinkedListNode *popWithAddress(LinkedList *list, LinkedListNode *item)
+{
+    if (item->next != NULL)
+        (item->next)->previous = item->previous;
+    else
+        list->tail = item->previous;
+
+    if (item->previous != NULL)
+        (item->previous)->next = item->next;
+    else
+        list->head = item->next;
+
+    return item;
+}
+
 LinkedListNode *getFirst(LinkedList *list)
 {
     return (*list).head;

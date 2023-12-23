@@ -25,6 +25,7 @@ int comparator(LinkedListNode *a, LinkedListNode *b)
 {
     return ((Thing *)a->content)->value - ((Thing *)b->content)->value;
 }
+
 int main()
 {
     int values[] = {10, 12, 22, 7, 1};
@@ -54,16 +55,18 @@ int main()
     pushInHead(&list, &fifth);*/
 
     /*pushInOrderCrescent(&list, &first, &comparator);
-pushInOrderCrescent(&list, &second, &comparator);
-pushInOrderCrescent(&list, &third, &comparator);
-pushInOrderCrescent(&list, &fourth, &comparator);
-pushInOrderCrescent(&list, &fifth, &comparator);*/
+    pushInOrderCrescent(&list, &second, &comparator);
+    pushInOrderCrescent(&list, &third, &comparator);
+    pushInOrderCrescent(&list, &fourth, &comparator);
+    pushInOrderCrescent(&list, &fifth, &comparator);*/
 
     /*pushInOrderDecrescent(&list, &first, &comparator);
     pushInOrderDecrescent(&list, &second, &comparator);
     pushInOrderDecrescent(&list, &third, &comparator);
     pushInOrderDecrescent(&list, &fourth, &comparator);
     pushInOrderDecrescent(&list, &fifth, &comparator);*/
+
+    popWithAddress(&list, &fifth);
 
     printf("size: %i \n", list.size);
     printf("Head value: %i \n", list.head == NULL ? -1 : ((Thing *)list.head->content)->value);

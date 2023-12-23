@@ -9,7 +9,7 @@
 int hashFuncion(HashMap *, char *);
 void verifyLoad(HashMap *);
 void expandArray(HashMap *);
-void reallocateData(HashMap *); /* Need Implementation: Pass for every Node in every
+/*void reallocateData(HashMap *);  Need Implementation: Pass for every Node in every
                                    position of LinkedList and realloc item for the correct
                                    position in new array; */
 

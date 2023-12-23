@@ -24,6 +24,7 @@ LinkedListNode *pushInOrderDecrescent(LinkedList *, LinkedListNode *, int (*comp
 LinkedListNode *popFirst(LinkedList *);
 LinkedListNode *popLast(LinkedList *);
 LinkedListNode *popWithIndex(LinkedList *, int);
+LinkedListNode *popWithAddress(LinkedList *, LinkedListNode *);
 LinkedListNode *getFirst(LinkedList *);
 LinkedListNode *getLast(LinkedList *);
 LinkedListNode *getWithIndex(LinkedList *, int);
