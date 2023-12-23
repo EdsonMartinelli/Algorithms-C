@@ -9,7 +9,7 @@
 int hashFuncion(HashMap *, char *);
 void verifyLoad(HashMap *);
 void expandArray(HashMap *);
-/*void reallocateData(HashMap *);  Implemented, but not tested. */
+void reallocateData(HashMap *);
 
 void initializeHashMap(HashMap *hm)
 {
