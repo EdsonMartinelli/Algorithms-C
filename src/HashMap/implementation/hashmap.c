@@ -3,15 +3,13 @@
 #include <string.h>
 #include "hashmap.h"
 
-#define INIT_ARRAY_SIZE 4
+#define INIT_ARRAY_SIZE 2
 
 // PRIVATE FUNCTIONS
 int hashFuncion(HashMap *, char *);
 void verifyLoad(HashMap *);
 void expandArray(HashMap *);
-/*void reallocateData(HashMap *);  Need Implementation: Pass for every Node in every
-                                   position of LinkedList and realloc item for the correct
-                                   position in new array; */
+/*void reallocateData(HashMap *);  Implemented, but not tested. */
 
 void initializeHashMap(HashMap *hm)
 {
@@ -27,6 +25,26 @@ void initializeHashMap(HashMap *hm)
     (*hm) = (HashMap){.array = array, .size = 0, .capacity = INIT_ARRAY_SIZE};
 }
 
+void reallocateData(HashMap *hm)
+{
+    for (int location = 0; location < hm->capacity / 2; location++)
+    {
+        LinkedListNode *temp = hm->array[location].head;
+        while (temp != NULL)
+        {
+            LinkedListNode *nextNode = temp->next;
+            int newLocation = hashFuncion(hm, ((HashItem *)temp->content)->key);
+            if (location != newLocation)
+            {
+                printf("Change Node Location (%s) from %i to %i\n", ((HashItem *)temp->content)->key, location, newLocation);
+                LinkedListNode *poppedItem = popWithAddress(&hm->array[location], temp);
+                pushInTail(&hm->array[newLocation], poppedItem);
+            }
+            temp = nextNode;
+        }
+    }
+}
+
 void expandArray(HashMap *hm)
 {
     LinkedList *newArray = realloc(hm->array, sizeof(LinkedList) * hm->capacity * 2);
@@ -39,6 +57,7 @@ void expandArray(HashMap *hm)
         initLinkedList(&newArray[i]);
     hm->array = newArray;
     hm->capacity = hm->capacity * 2;
+    reallocateData(hm);
 }
 
 void verifyLoad(HashMap *hm)

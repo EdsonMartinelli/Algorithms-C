@@ -24,6 +24,7 @@ int main()
     printf("Get Value for \"teste\": %i\n", (*getHashMap(&x, "teste")).value);
     printf("Get Value for \"morte\": %i\n", (*getHashMap(&x, "morte")).value);
     printf("Get Value for \"a\": %i\n", (*getHashMap(&x, "a")).value);
+    printf("Get Value for \"dor\": %i\n", (*getHashMap(&x, "dor")).value);
     // printf("%p %p\n", test1, test2);
     freeHashMap(&x);
     return 0;
