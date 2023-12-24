@@ -12,6 +12,7 @@ add_subdirectory(src/HeapSort)
 add_subdirectory(src/LinkedList)
 add_subdirectory(src/PriorityQueue)
 add_subdirectory(src/Vector)
+add_subdirectory(src/InfinityArray)
 
 message(STATUS "[FINISHED] PROJECT")
 
