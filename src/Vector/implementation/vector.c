@@ -14,7 +14,7 @@ void initializeVector(Vector *vec)
     memset(array, 0, sizeof(void *) * INIT_ARRAY_SIZE_VECTOR);
     *vec = (Vector){
         .array = array,
-        .nextElementIndex = 0,
+        .lastElementIndex = -1,
         .capacity = INIT_ARRAY_SIZE_VECTOR};
 }
 
@@ -33,29 +33,85 @@ void expandVector(Vector *vec, int newCap)
 
 void pushBackVector(Vector *vec, void *item)
 {
-    if (vec->nextElementIndex >= vec->capacity)
+    if (vec->lastElementIndex + 1 >= vec->capacity)
         expandVector(vec, vec->capacity * 2);
-    vec->array[vec->nextElementIndex] = item;
-    vec->nextElementIndex++;
+
+    vec->lastElementIndex++;
+    vec->array[vec->lastElementIndex] = item;
 }
 
-void pushVectorWithIndex(Vector *vec, void *item, int index)
+void insertVector(Vector *vec, void *item, int index)
 {
-    if (index >= vec->capacity)
-        expandVector(vec, index + (index / 2));
+    if (index > vec->lastElementIndex + 1 || index < 0)
+        return;
+
+    if (vec->lastElementIndex + 1 >= vec->capacity)
+        expandVector(vec, vec->capacity * 2);
+
+    memcpy(vec->array + index + 1,
+           vec->array + index,
+           sizeof(void *) * (vec->lastElementIndex - index + 1));
     vec->array[index] = item;
-    vec->nextElementIndex = index + 1;
+    vec->lastElementIndex++;
 }
 
-void *popVectorWithIndex(Vector *vec, int index)
+void insertNVector(Vector *vec, void *item, int n, int index)
 {
-    if (index >= vec->capacity)
-    {
-        printf("Array Out of Bounds!\n");
-        exit(EXIT_FAILURE);
-    }
-    void *popped = vec->array[index];
-    vec->array[index] = NULL;
+    if (index > vec->lastElementIndex + n || index < 0)
+        return;
+
+    if (vec->lastElementIndex + n >= vec->capacity)
+        expandVector(vec, (vec->capacity * 2) + n);
+
+    memcpy(vec->array + index + n,
+           vec->array + index,
+           sizeof(void *) * (vec->lastElementIndex - index + 1));
+
+    for (int i = 0; i < n; i++)
+        vec->array[index + i] = item;
+    vec->lastElementIndex += n;
+}
+
+void insertArrayVector(Vector *vec, void **items, int firstIndex, int lastIndex, int index)
+{
+    int n = (lastIndex - firstIndex + 1);
+    if (index > vec->lastElementIndex + n || index < 0 || firstIndex > lastIndex)
+        return;
+
+    if (vec->lastElementIndex + n >= vec->capacity)
+        expandVector(vec, (vec->capacity * 2) + n);
+
+    memcpy(vec->array + index + n,
+           vec->array + index,
+           sizeof(void *) * (vec->lastElementIndex - index + 1));
+
+    for (int i = 0; i < n; i++)
+        vec->array[index + i] = items[firstIndex + i];
+    vec->lastElementIndex += n;
+}
+
+void erase(Vector *vec, int firstIndex, int lastIndex)
+{
+    int size = lastIndex - firstIndex + 1;
+    if (size > vec->lastElementIndex + 1)
+        return;
+
+    memcpy(vec->array + firstIndex,
+           vec->array + lastIndex,
+           sizeof(void *) * (vec->lastElementIndex - lastIndex + 1));
+
+    // No finished
+    vec->lastElementIndex -= size;
+}
+
+void *popBackVector(Vector *vec)
+{
+    if (vec->lastElementIndex < 0)
+        return NULL;
+
+    void *popped = vec->array[vec->lastElementIndex];
+    vec->array[vec->lastElementIndex] = NULL;
+    vec->lastElementIndex--;
     return popped;
 }
 

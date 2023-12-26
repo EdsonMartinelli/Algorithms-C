@@ -5,15 +5,17 @@
 typedef struct
 {
     void **array;
-    int nextElementIndex;
+    int lastElementIndex;
     int capacity;
 } Vector;
 
 void initializeVector(Vector *);
 void pushBackVector(Vector *, void *);
-void pushVectorWithIndex(Vector *, void *, int);
-void expandVector(Vector *, int);
-void *popVectorWithIndex(Vector *, int);
+void *popBackVector(Vector *);
+void insertVector(Vector *, void *, int);
+void insertNVector(Vector *vec, void *item, int quant, int index);
+void insertArrayVector(Vector *vec, void **items, int firstIndex, int lastIndex, int index);
+void erase(Vector *vec, int firstIndex, int lastIndex);
 void freeVector(Vector *vec);
 
 #endif
