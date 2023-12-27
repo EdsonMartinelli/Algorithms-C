@@ -203,9 +203,9 @@ int IsEmptyVector(Vector *vec)
     return vec->size == 0 ? 1 : 0;
 }
 
-void *atVector(Vector *vec, int index)
+void *atVector(Vector vec, int index)
 {
-    return vec->array[index];
+    return vec.array[index];
 }
 
 void resizeVector(Vector *vec, int n, void *initItem)

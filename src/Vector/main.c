@@ -50,9 +50,9 @@ int main()
         if (vec.array[i] == NULL)
             printf("NULL\n");
         else
-            printf("%i\n", *((int *)atVector(&vec, i)));
+            printf("%i\n", *((int *)atVector(vec, i)));
     }
-
+    free(x);
     freeVector(&vec);
     return 0;
 }
