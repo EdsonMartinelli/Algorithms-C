@@ -37,13 +37,20 @@ int main()
     // insertVector(&vec, &c, 1);
     // insertNVector(&vec, &c, 2, 6);
     // insertArrayVector(&vec, x, 0, 2, 1);
-    erase(&vec, 1, 6);
+    // erase(&vec, 1, 6);
+
+    resizeVector(&vec, 20, &c);
+
+    /*printf("Cap: %i\n", vec.capacity);
+    shrinkToFitVector(&vec);
+    printf("Cap: %i\n", vec.capacity);*/
+
     for (int i = 0; i < vec.size; i++)
     {
         if (vec.array[i] == NULL)
             printf("NULL\n");
         else
-            printf("%i\n", *((int *)vec.array[i]));
+            printf("%i\n", *((int *)atVector(&vec, i)));
     }
 
     freeVector(&vec);
