@@ -14,11 +14,11 @@ void initializeVector(Vector *vec)
     memset(array, 0, sizeof(void *) * INIT_ARRAY_SIZE_VECTOR);
     *vec = (Vector){
         .array = array,
-        .lastElementIndex = -1,
+        .size = 0,
         .capacity = INIT_ARRAY_SIZE_VECTOR};
 }
 
-void expandVector(Vector *vec, int newCap)
+static void expandVector(Vector *vec, int newCap)
 {
     void **newArray = (void **)realloc(vec->array, sizeof(void *) * newCap);
     if (newArray == NULL)
@@ -33,85 +33,90 @@ void expandVector(Vector *vec, int newCap)
 
 void pushBackVector(Vector *vec, void *item)
 {
-    if (vec->lastElementIndex + 1 >= vec->capacity)
+    if (vec->size >= vec->capacity)
         expandVector(vec, vec->capacity * 2);
 
-    vec->lastElementIndex++;
-    vec->array[vec->lastElementIndex] = item;
+    vec->array[vec->size] = item;
+    vec->size++;
 }
 
 void insertVector(Vector *vec, void *item, int index)
 {
-    if (index > vec->lastElementIndex + 1 || index < 0)
+    if (index > vec->size || index < 0)
         return;
 
-    if (vec->lastElementIndex + 1 >= vec->capacity)
+    if (vec->size >= vec->capacity)
         expandVector(vec, vec->capacity * 2);
 
     memcpy(vec->array + index + 1,
            vec->array + index,
-           sizeof(void *) * (vec->lastElementIndex - index + 1));
+           sizeof(void *) * (vec->size - index));
     vec->array[index] = item;
-    vec->lastElementIndex++;
+    vec->size++;
 }
 
 void insertNVector(Vector *vec, void *item, int n, int index)
 {
-    if (index > vec->lastElementIndex + n || index < 0)
+    if (index > vec->size + n - 1 || index < 0)
         return;
 
-    if (vec->lastElementIndex + n >= vec->capacity)
+    if (vec->size + n >= vec->capacity)
         expandVector(vec, (vec->capacity * 2) + n);
 
     memcpy(vec->array + index + n,
            vec->array + index,
-           sizeof(void *) * (vec->lastElementIndex - index + 1));
+           sizeof(void *) * (vec->size - index));
 
     for (int i = 0; i < n; i++)
         vec->array[index + i] = item;
-    vec->lastElementIndex += n;
+    vec->size += n;
 }
 
 void insertArrayVector(Vector *vec, void **items, int firstIndex, int lastIndex, int index)
 {
-    int n = (lastIndex - firstIndex + 1);
-    if (index > vec->lastElementIndex + n || index < 0 || firstIndex > lastIndex)
+    int n = lastIndex - firstIndex;
+    if (index > vec->size || index < 0 || firstIndex > lastIndex)
         return;
 
-    if (vec->lastElementIndex + n >= vec->capacity)
+    if (vec->size + n >= vec->capacity)
         expandVector(vec, (vec->capacity * 2) + n);
 
     memcpy(vec->array + index + n,
            vec->array + index,
-           sizeof(void *) * (vec->lastElementIndex - index + 1));
+           sizeof(void *) * (vec->size - index));
 
     for (int i = 0; i < n; i++)
         vec->array[index + i] = items[firstIndex + i];
-    vec->lastElementIndex += n;
+    vec->size += n;
 }
 
 void erase(Vector *vec, int firstIndex, int lastIndex)
 {
-    int size = lastIndex - firstIndex + 1;
-    if (size > vec->lastElementIndex + 1)
+    int eraseSize = lastIndex - firstIndex;
+    if (eraseSize > vec->size)
+        return;
+
+    if (lastIndex > vec->size || firstIndex > vec->size - 1)
         return;
 
     memcpy(vec->array + firstIndex,
            vec->array + lastIndex,
-           sizeof(void *) * (vec->lastElementIndex - lastIndex + 1));
+           sizeof(void *) * (vec->size - lastIndex));
 
-    // No finished
-    vec->lastElementIndex -= size;
+    memset(vec->array + vec->size - eraseSize,
+           0,
+           sizeof(void *) * eraseSize);
+    vec->size -= eraseSize;
 }
 
 void *popBackVector(Vector *vec)
 {
-    if (vec->lastElementIndex < 0)
+    if (vec->size <= 0)
         return NULL;
 
-    void *popped = vec->array[vec->lastElementIndex];
-    vec->array[vec->lastElementIndex] = NULL;
-    vec->lastElementIndex--;
+    void *popped = vec->array[vec->size - 1];
+    vec->array[vec->size - 1] = NULL;
+    vec->size--;
     return popped;
 }
 

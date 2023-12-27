@@ -36,8 +36,9 @@ int main()
     popBackVector(&vec);*/
     // insertVector(&vec, &c, 1);
     // insertNVector(&vec, &c, 2, 6);
-    // insertArrayVector(&vec, x, 0, 0, 1);
-    for (int i = 0; i < vec.lastElementIndex + 1; i++)
+    // insertArrayVector(&vec, x, 0, 2, 1);
+    erase(&vec, 1, 6);
+    for (int i = 0; i < vec.size; i++)
     {
         if (vec.array[i] == NULL)
             printf("NULL\n");

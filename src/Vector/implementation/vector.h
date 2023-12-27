@@ -5,7 +5,7 @@
 typedef struct
 {
     void **array;
-    int lastElementIndex;
+    int size;
     int capacity;
 } Vector;
 
