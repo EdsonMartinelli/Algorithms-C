@@ -14,11 +14,12 @@ typedef struct
     int capacity;
 } PriorityQueue;
 
-void initPriorityQueue(PriorityQueue *, Item **, int);
+void initPriorityQueue(PriorityQueue *);
 void maxHeapifyBottomUp(PriorityQueue *, int, Item *);
 void maxHeapifyTopDown(PriorityQueue *, int, Item *);
 Item *addPriorityQueue(PriorityQueue *, Item *);
 Item *extractMaxPriorityQueue(PriorityQueue *);
-void printPriorityQueue(PriorityQueue *);
+void printPriorityQueue(PriorityQueue);
+void destroyPriorityQueue(PriorityQueue *);
 
 #endif

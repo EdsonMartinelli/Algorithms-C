@@ -1,16 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "priorityqueue.h"
 
-void initPriorityQueue(PriorityQueue *pq, Item **queue, int cap)
+#define MIN_PRIORITY_QUEUE_SIZE 16
+#define MAX_PRIORITY_QUEUE_SIZE 1073741823
+
+void initPriorityQueue(PriorityQueue *pq)
 {
-    (*pq) = (PriorityQueue){.queue = queue, .size = 0, .capacity = cap};
+    Item **queue = malloc(sizeof(Item *) * MIN_PRIORITY_QUEUE_SIZE);
+    (*pq) = (PriorityQueue){.queue = queue,
+                            .size = 0,
+                            .capacity = MIN_PRIORITY_QUEUE_SIZE};
 }
 
-void printPriorityQueue(PriorityQueue *pq)
+void printPriorityQueue(PriorityQueue pq)
 {
-    for (int i = 0; i < (*pq).size; i++)
-        printf("%i ", (*(*pq).queue[i]).key);
+    for (int i = 0; i < pq.size; i++)
+        printf("%i ", (*pq.queue[i]).key);
     printf("\n");
+}
+
+static Item **changeCapacityPriorityQueue(Item **queue, int newCap)
+{
+    void **newQueue = (void **)realloc(queue, sizeof(void *) * newCap);
+    if (newQueue == NULL)
+    {
+        fprintf(stderr, "Memory Reallocate Failure.");
+        exit(EXIT_FAILURE);
+    }
+    return newQueue;
 }
 
 void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item *targetItem)
@@ -57,8 +75,18 @@ void maxHeapifyTopDown(PriorityQueue *pq, int index, Item *targetItem)
 
 Item *addPriorityQueue(PriorityQueue *pq, Item *item)
 {
-    if ((*pq).size >= (*pq).capacity)
-        return NULL;
+    if ((*pq).size > (*pq).capacity)
+    {
+        if (pq->capacity == MAX_PRIORITY_QUEUE_SIZE)
+        {
+            fprintf(stderr, "Maximum Queue Capacity Reached.");
+            exit(EXIT_FAILURE);
+        }
+        int newCap = pq->capacity * 2 > MAX_PRIORITY_QUEUE_SIZE ? MAX_PRIORITY_QUEUE_SIZE : pq->capacity * 2;
+        Item **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity * 2);
+        pq->queue = newQueue;
+        pq->capacity = newCap;
+    }
 
     (*pq).queue[(*pq).size] = item;
     maxHeapifyBottomUp(pq, (*pq).size, (*pq).queue[(*pq).size]);
@@ -68,10 +96,26 @@ Item *addPriorityQueue(PriorityQueue *pq, Item *item)
 
 Item *extractMaxPriorityQueue(PriorityQueue *pq)
 {
+    if ((*pq).size < (*pq).capacity * 0.25)
+    {
+        if (pq->capacity > MIN_PRIORITY_QUEUE_SIZE)
+        {
+            int newCap = pq->capacity / 2 < MIN_PRIORITY_QUEUE_SIZE ? MIN_PRIORITY_QUEUE_SIZE : pq->capacity / 2;
+            Item **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity / 2);
+            pq->queue = newQueue;
+            pq->capacity = newCap;
+        }
+    }
+
     Item *temp = (*pq).queue[0];
     (*pq).queue[0] = (*pq).queue[(*pq).size - 1];
     (*pq).queue[(*pq).size - 1] = temp;
     (*pq).size--;
     maxHeapifyTopDown(pq, 0, (*pq).queue[0]);
     return temp;
+}
+
+void destroyPriorityQueue(PriorityQueue *pq)
+{
+    free(pq->queue);
 }
