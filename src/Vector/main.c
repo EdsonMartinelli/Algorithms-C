@@ -24,11 +24,6 @@ int main()
     x[2] = &c;
     x[3] = &c;
     x[4] = &c;
-    // pushVectorWithIndex(&vec, &c, 4);
-
-    // pushVectorWithIndex(&vec, &c, 9);
-
-    // popVectorWithIndex(&vec, 16);
 
     /*popBackVector(&vec);
     popBackVector(&vec);

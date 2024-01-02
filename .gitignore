@@ -3,5 +3,6 @@
 /**/build/*
 /**/output/*
 
+/output
 /build
-/Test
+/TestOfC

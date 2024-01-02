@@ -198,7 +198,7 @@ void reserveVector(Vector *vec, int n)
     expandCapacityVector(vec, n);
 }
 
-int IsEmptyVector(Vector *vec)
+int isEmptyVector(Vector *vec)
 {
     return vec->size == 0 ? 1 : 0;
 }

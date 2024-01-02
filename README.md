@@ -13,7 +13,7 @@ To build this project just go to the root of application and run:
 ./build.sh
 ```
 
-A output will be created in every algoritm folder containing:
+A output folder will be created in root with both folders below:
 
 - **bin** : Executables files directory;
 - **lib** : Static libraries directory; 
@@ -24,7 +24,7 @@ To run:
 ./run.sh <algorithm_name>
 ```
 
-The name of all algorithms are mentioned below.
+The name of all algorithms are mentioned in the next section.
 
 ## Algorithms
 

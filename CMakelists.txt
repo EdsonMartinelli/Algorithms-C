@@ -1,9 +1,14 @@
 cmake_minimum_required(VERSION 3.28)
 project(alib LANGUAGES C)
 
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Static Library 
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Shared Library
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)   # Executables
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Static Library 
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Shared Library
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)   # Executables
+
+set (TARGET_GROUP production CACHE STRING "What Should I Build?")  
+if(TARGET_GROUP STREQUAL teste) 
+message(STATUS "Deu certo!")
+endif()
 
 message(STATUS "[STARTING] PROJECT")
 
@@ -15,4 +20,3 @@ add_subdirectory(src/Vector)
 add_subdirectory(src/InfinityArray)
 
 message(STATUS "[FINISHED] PROJECT")
-

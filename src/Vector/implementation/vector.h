@@ -18,7 +18,7 @@ void eraseVector(Vector *vec, int firstIndex, int lastIndex);
 void swapVector(Vector *vec1, Vector *vec2);
 void clearVector(Vector *vec);
 void shrinkToFitVector(Vector *vec);
-int IsEmptyVector(Vector *vec);
+int isEmptyVector(Vector *vec);
 void *atVector(Vector vec, int index);
 void resizeVector(Vector *vec, int n, void *initItem);
 void freeVector(Vector *vec);
