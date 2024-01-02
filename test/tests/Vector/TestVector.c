@@ -10,7 +10,7 @@ int c = 10;
 
 void setUp()
 {
-    initializeVector(&vec);
+    initVector(&vec);
 }
 
 void tearDown()
