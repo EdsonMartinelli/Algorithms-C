@@ -6,7 +6,7 @@
 #define INIT_ARRAY_SIZE_VECTOR 16
 #define MAX_ARRAY_SIZE_VECTOR 1073741823
 
-void initializeVector(Vector *vec)
+void initVector(Vector *vec)
 {
     void **array = (void **)malloc(sizeof(void *) * INIT_ARRAY_SIZE_VECTOR);
     if (array == NULL)

@@ -7,7 +7,7 @@ int main()
 {
     void **x = (void **)malloc(sizeof(void *) * 5);
     Vector vec;
-    initializeVector(&vec);
+    initVector(&vec);
     int a = 1;
     int b = 2;
     int c = 10;

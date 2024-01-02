@@ -42,11 +42,11 @@ int main()
     LinkedListNode fourth = {.content = &things[3]};
     LinkedListNode fifth = {.content = &things[4]};
 
-    pushInTail(&list, &first);
+    /*pushInTail(&list, &first);
     pushInTail(&list, &second);
     pushInTail(&list, &third);
     pushInTail(&list, &fourth);
-    pushInTail(&list, &fifth);
+    pushInTail(&list, &fifth);*/
 
     /*pushInHead(&list, &first);
     pushInHead(&list, &second);
@@ -54,11 +54,11 @@ int main()
     pushInHead(&list, &fourth);
     pushInHead(&list, &fifth);*/
 
-    /*pushInOrderCrescent(&list, &first, &comparator);
+    pushInOrderCrescent(&list, &first, &comparator);
     pushInOrderCrescent(&list, &second, &comparator);
     pushInOrderCrescent(&list, &third, &comparator);
     pushInOrderCrescent(&list, &fourth, &comparator);
-    pushInOrderCrescent(&list, &fifth, &comparator);*/
+    pushInOrderCrescent(&list, &fifth, &comparator);
 
     /*pushInOrderDecrescent(&list, &first, &comparator);
     pushInOrderDecrescent(&list, &second, &comparator);
@@ -66,7 +66,7 @@ int main()
     pushInOrderDecrescent(&list, &fourth, &comparator);
     pushInOrderDecrescent(&list, &fifth, &comparator);*/
 
-    popWithAddress(&list, &fifth);
+    // popWithAddress(&list, &fifth);
 
     printf("size: %i \n", list.size);
     printf("Head value: %i \n", list.head == NULL ? -1 : ((Thing *)list.head->content)->value);

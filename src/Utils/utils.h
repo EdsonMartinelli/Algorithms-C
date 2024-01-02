@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int randomIntNumber(int min, int max)
+int randomIntNumber(int min, int max, int seedLoop)
 {
-    srand(time(NULL));
+    srand(time(0) + seedLoop);
     return (rand() % (max - min)) + min;
 }
 

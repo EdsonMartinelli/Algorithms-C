@@ -8,7 +8,7 @@ typedef struct
     int capacity;
 } Vector;
 
-void initializeVector(Vector *vec);
+void initVector(Vector *vec);
 void pushBackVector(Vector *vec, void *item);
 void *popBackVector(Vector *vec);
 void insertVector(Vector *vec, void *item, int index);

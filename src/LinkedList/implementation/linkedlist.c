@@ -6,6 +6,12 @@ void initLinkedList(LinkedList *list)
     *list = (LinkedList){.head = NULL, .tail = NULL, .size = 0};
 }
 
+/*static LinkedListNode *createLinkedListNode(void *content)
+{
+    LinkedListNode *item = (LinkedListNode *)malloc(sizeof(LinkedListNode));
+    return item;
+}*/
+
 LinkedListNode *pushInHead(LinkedList *list, LinkedListNode *item)
 {
     (*item).previous = NULL;
@@ -54,21 +60,23 @@ LinkedListNode *pushInOrderCrescent(
     while ((*temp).next != NULL && (*comparator)(temp, item) <= 0)
         temp = (*temp).next;
 
-    if ((*temp).next == NULL)
-        return pushInTail(list, item);
+    if ((*comparator)(temp, item) > 0)
+    {
+        if ((*temp).previous == NULL)
+            return pushInHead(list, item);
 
-    if ((*temp).previous == NULL)
-        return pushInHead(list, item);
+        (*(*temp).previous).next = item;
 
-    (*(*temp).previous).next = item;
+        (*item).previous = (*temp).previous;
+        (*item).next = temp;
 
-    (*item).previous = (*temp).previous;
-    (*item).next = temp;
+        (*temp).previous = item;
 
-    (*temp).previous = item;
+        (*list).size++;
+        return item;
+    }
 
-    (*list).size++;
-    return item;
+    return pushInTail(list, item);
 }
 
 LinkedListNode *pushInOrderDecrescent(
@@ -87,21 +95,23 @@ LinkedListNode *pushInOrderDecrescent(
     while ((*temp).next != NULL && (*comparator)(temp, item) >= 0)
         temp = (*temp).next;
 
-    if ((*temp).next == NULL)
-        return pushInTail(list, item);
+    if ((*comparator)(temp, item) < 0)
+    {
+        if ((*temp).previous == NULL)
+            return pushInHead(list, item);
 
-    if ((*temp).previous == NULL)
-        return pushInHead(list, item);
+        (*(*temp).previous).next = item;
 
-    (*(*temp).previous).next = item;
+        (*item).previous = (*temp).previous;
+        (*item).next = temp;
 
-    (*item).previous = (*temp).previous;
-    (*item).next = temp;
+        (*temp).previous = item;
 
-    (*temp).previous = item;
+        (*list).size++;
+        return item;
+    }
 
-    (*list).size++;
-    return item;
+    return pushInTail(list, item);
 }
 
 LinkedListNode *popFirst(LinkedList *list)
@@ -140,7 +150,7 @@ LinkedListNode *popLast(LinkedList *list)
 
 LinkedListNode *popWithIndex(LinkedList *list, int index)
 {
-    if ((*list).size == 0)
+    if (index > (*list).size - 1 || index < 0)
         return NULL;
 
     LinkedListNode *temp = (*list).head;
@@ -150,9 +160,6 @@ LinkedListNode *popWithIndex(LinkedList *list, int index)
         temp = (*temp).next;
         index--;
     }
-
-    if (index > 0)
-        return NULL;
 
     if ((*temp).next == NULL)
         return popLast(list);
@@ -168,6 +175,17 @@ LinkedListNode *popWithIndex(LinkedList *list, int index)
 
 LinkedListNode *popWithAddress(LinkedList *list, LinkedListNode *item)
 {
+    LinkedListNode *temp = (*list).head;
+    while (temp != NULL)
+    {
+        if (item == temp)
+            break;
+        temp = temp->next;
+    }
+
+    if (temp == NULL)
+        return NULL;
+
     if (item->next != NULL)
         (item->next)->previous = item->previous;
     else
@@ -178,6 +196,7 @@ LinkedListNode *popWithAddress(LinkedList *list, LinkedListNode *item)
     else
         list->head = item->next;
 
+    list->size--;
     return item;
 }
 
