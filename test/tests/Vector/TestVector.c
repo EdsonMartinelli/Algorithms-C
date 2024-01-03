@@ -393,7 +393,7 @@ void vectorsShouldSwap()
     initializeWithElements();
     void **p1 = vec.array;
     Vector vec2;
-    initializeVector(&vec2);
+    initVector(&vec2);
     void **p2 = vec2.array;
     swapVector(&vec, &vec2);
 

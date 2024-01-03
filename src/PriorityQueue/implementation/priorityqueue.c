@@ -22,7 +22,7 @@ void printPriorityQueue(PriorityQueue pq)
 
 static Item **changeCapacityPriorityQueue(Item **queue, int newCap)
 {
-    void **newQueue = (void **)realloc(queue, sizeof(void *) * newCap);
+    Item **newQueue = (Item **)realloc(queue, sizeof(Item *) * newCap);
     if (newQueue == NULL)
     {
         fprintf(stderr, "Memory Reallocate Failure.");

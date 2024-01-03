@@ -1,0 +1,3 @@
+add_executable(test_linkedlist TestLinkedList.c)
+target_link_libraries(test_linkedlist unity linkedlist)
+add_test(NAME TestLinkedList COMMAND test_linkedlist WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)

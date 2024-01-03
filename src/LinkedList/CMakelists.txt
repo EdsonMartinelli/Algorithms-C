@@ -2,14 +2,5 @@ set(LIB_NAME "Linked List")
 set(FILE_NAME "linkedlist")
 
 message(STATUS "[Compiling] ${LIB_NAME}.")
-
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/output/lib) 
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/output/bin)
-
 add_library(${FILE_NAME} STATIC implementation/${FILE_NAME}.c)
-add_executable(main_${FILE_NAME}.out main.c)
-
-message(STATUS "[Linking] ${LIB_NAME} - Main.")
-target_link_libraries(main_${FILE_NAME}.out ${FILE_NAME})
-
 message(STATUS "[Finished] ${LIB_NAME}.")
