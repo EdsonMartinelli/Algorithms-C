@@ -33,4 +33,4 @@ The name of all algorithms are mentioned in the next section.
 - **PriorityQueue** : Ensures the first item of array have the higher weight/importance. It have methods to add and extract.
 - **HashMap** : Simple hashmap implemented with linked list to add a tuple with key and value and get the value based on key.
 - **Vector** : Array with dynamic size, based in C++ class *Vector*.
-- **InfinityArray**: Javascript like array, similar to vector.
+- **InfinityArray**: Javascript like array.
