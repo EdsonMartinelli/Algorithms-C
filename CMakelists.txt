@@ -13,6 +13,7 @@ add_subdirectory(test/tests/Vector)
 add_subdirectory(test/tests/LinkedList)
 add_subdirectory(test/tests/PriorityQueue)
 add_subdirectory(test/tests/InfinityArray)
+add_subdirectory(test/tests/HeapSort)
 
 endif()
 
