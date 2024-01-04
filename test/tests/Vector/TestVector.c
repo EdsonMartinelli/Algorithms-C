@@ -52,15 +52,9 @@ void vectorShouldPushBackElement()
     for (int i = 0; i < vec.size; i++)
     {
         if (i % 2 == 0)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 }
 
@@ -77,15 +71,9 @@ void vectorShouldPopBackElement()
     for (int i = 0; i < vec.size; i++)
     {
         if (i % 2 == 0)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 
     TEST_ASSERT_EQUAL_PTR(bPop, &b);
@@ -102,35 +90,22 @@ void vectorShouldInsertElement()
     TEST_ASSERT_EQUAL(16, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + 1, vec.size);
 
-    if ((*(int *)(vec.array[index])) != c)
-        TEST_FAIL();
+    TEST_ASSERT_EQUAL((*(int *)(vec.array[index])), c);
 
     for (int i = 0; i < index; i++)
     {
         if (i % 2 == 0)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 
     for (int i = index + 1; i < vec.size; i++)
     {
         if (i % 2 == 1)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 }
 
@@ -144,21 +119,14 @@ void vectorShouldInsertElementInTheBegin()
     TEST_ASSERT_EQUAL(16, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + 1, vec.size);
 
-    if ((*(int *)(vec.array[index])) != c)
-        TEST_FAIL();
+    TEST_ASSERT_EQUAL((*(int *)(vec.array[index])), c);
 
     for (int i = index + 1; i < index; i++)
     {
         if (i % 2 == 1)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 }
 
@@ -172,21 +140,14 @@ void vectorShouldInsertElementInTheEnd()
     TEST_ASSERT_EQUAL(16, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + 1, vec.size);
 
-    if ((*(int *)(vec.array[index])) != c)
-        TEST_FAIL();
+    TEST_ASSERT_EQUAL((*(int *)(vec.array[index])), c);
 
     for (int i = 0; i < expSize; i++)
     {
         if (i % 2 == 0)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 }
 
@@ -202,16 +163,13 @@ void vectorShouldInsertNElements()
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < index; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 
     for (int i = index; i < index + n; i++)
-        if ((*(int *)(vec.array[index])) != c)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), c);
 
     for (int i = index + n; i < vec.size; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 }
 
 void vectorShouldInsertNElementsInTheBegin()
@@ -226,12 +184,10 @@ void vectorShouldInsertNElementsInTheBegin()
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < n; i++)
-        if ((*(int *)(vec.array[index])) != c)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), c);
 
     for (int i = index + n; i < vec.size; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 }
 
 void vectorShouldInsertNElementsInTheEnd()
@@ -246,12 +202,10 @@ void vectorShouldInsertNElementsInTheEnd()
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < expSize; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 
     for (int i = expSize; i < expSize + n; i++)
-        if ((*(int *)(vec.array[index])) != c)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), c);
 }
 
 void vectorShouldInsertArray()
@@ -274,16 +228,13 @@ void vectorShouldInsertArray()
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < index; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 
     for (int i = index; i < index + n; i++)
-        if ((*(int *)(vec.array[index])) != c)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), c);
 
     for (int i = index + n; i < vec.size; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 
     free(array);
 }
@@ -308,12 +259,10 @@ void vectorShouldInsertArrayInTheBegin()
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < n; i++)
-        if ((*(int *)(vec.array[index])) != c)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), c);
 
     for (int i = index + n; i < vec.size; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 
     free(array);
 }
@@ -338,12 +287,10 @@ void vectorShouldInsertArrayInTheEnd()
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < expSize; i++)
-        if ((*(int *)(vec.array[i])) != a)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
 
     for (int i = expSize; i < expSize + n; i++)
-        if ((*(int *)(vec.array[index])) != c)
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), c);
 
     free(array);
 }
@@ -363,15 +310,9 @@ void vectorShouldEraseElements()
     for (int i = 0; i < vec.size; i++)
     {
         if (i % 2 == 0)
-        {
-            if ((*(int *)(vec.array[i])) != a)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), a);
         else
-        {
-            if ((*(int *)(vec.array[i])) != b)
-                TEST_FAIL();
-        }
+            TEST_ASSERT_EQUAL((*(int *)(vec.array[i])), b);
     }
 }
 
