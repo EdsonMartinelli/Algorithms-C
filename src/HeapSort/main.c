@@ -10,7 +10,10 @@ int main()
     printf("Original Array: \n");
     printArrayHeapSort(array, ARRAY_SIZE);
     printf("After HeapSort: \n");
-    heapSort(array, ARRAY_SIZE, &minHeapify);
+    heapSort(array, ARRAY_SIZE);
+    printArrayHeapSort(array, ARRAY_SIZE);
+    printf("After HeapSort Decrescent: \n");
+    heapSortDecrescent(array, ARRAY_SIZE);
     printArrayHeapSort(array, ARRAY_SIZE);
     return 0;
 }
