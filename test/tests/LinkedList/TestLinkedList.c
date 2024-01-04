@@ -37,10 +37,10 @@ void linkedListShouldPushNodeInTail()
 
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize; i++)
-        if (*((int *)temp->content) != values[i])
-            TEST_FAIL();
-        else
-            temp = temp->next;
+    {
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[i]);
+        temp = temp->next;
+    }
 }
 
 void linkedListShouldPushNodeInHead()
@@ -53,10 +53,10 @@ void linkedListShouldPushNodeInHead()
 
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize; i++)
-        if (*((int *)temp->content) != values[expSize - 1 - i])
-            TEST_FAIL();
-        else
-            temp = temp->next;
+    {
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[expSize - 1 - i]);
+        temp = temp->next;
+    }
 }
 
 void linkedListShouldPushNodeInCrescentOrder()
@@ -71,8 +71,9 @@ void linkedListShouldPushNodeInCrescentOrder()
     {
         if (temp->next != NULL)
         {
-            if (*((int *)temp->content) > *((int *)(temp->next)->content))
-                TEST_FAIL();
+            /*if (*((int *)temp->content) > *((int *)(temp->next)->content))
+                TEST_FAIL();*/
+            TEST_ASSERT_GREATER_OR_EQUAL_INT32(*((int *)temp->content), *((int *)(temp->next)->content));
         }
         temp = temp->next;
     }
@@ -90,11 +91,9 @@ void linkedListShouldPushNodeInDecrescentOrder()
     {
         if (temp->next != NULL)
         {
-            if (*((int *)temp->content) < *((int *)(temp->next)->content))
-            {
-                printf("%i %i", *((int *)temp->content), *((int *)(temp->next)->content));
-                TEST_FAIL();
-            }
+            /*if (*((int *)temp->content) < *((int *)(temp->next)->content))
+                TEST_FAIL();*/
+            TEST_ASSERT_LESS_OR_EQUAL_INT32(*((int *)temp->content), *((int *)(temp->next)->content));
         }
         temp = temp->next;
     }
@@ -106,10 +105,7 @@ void linkedListShouldGetFirstNode()
         pushInTail(&list, &nodes[i]);
 
     LinkedListNode *first = getFirst(&list);
-    if (*((int *)first->content) != values[0])
-    {
-        TEST_FAIL();
-    }
+    TEST_ASSERT_EQUAL(*((int *)first->content), values[0]);
 }
 
 void linkedListGetFirstShouldReturnNullIfListIsEmpty()
@@ -125,10 +121,7 @@ void linkedListShouldGetLastNode()
         pushInTail(&list, &nodes[i]);
 
     LinkedListNode *last = getLast(&list);
-    if (*((int *)last->content) != values[expSize - 1])
-    {
-        TEST_FAIL();
-    }
+    TEST_ASSERT_EQUAL(*((int *)last->content), values[expSize - 1]);
 }
 
 void linkedListGetLastShouldReturnNullIfListIsEmpty()
@@ -145,10 +138,7 @@ void linkedListShouldGetNodeWithIndex()
         pushInTail(&list, &nodes[i]);
 
     LinkedListNode *node = getWithIndex(&list, index);
-    if (*((int *)node->content) != values[index])
-    {
-        TEST_FAIL();
-    }
+    TEST_ASSERT_EQUAL(*((int *)node->content), values[index]);
 }
 
 void linkedListGetNodeWithIndexShouldReturnNullIfIndexDoesNotExist()
@@ -173,18 +163,15 @@ void linkedListShouldPopFirstNode()
 
     TEST_ASSERT_EQUAL_PTR(first->next, list.head);
 
-    if (*((int *)first->content) != values[0])
-    {
-        TEST_FAIL();
-    }
+    TEST_ASSERT_EQUAL(*((int *)first->content), values[0]);
+
     TEST_ASSERT_EQUAL(expSize - 1, list.size);
     TEST_ASSERT_EQUAL_PTR(first, firstPopped);
 
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize - 1; i++)
     {
-        if (*((int *)temp->content) != values[i + 1])
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[i + 1]);
         temp = temp->next;
     }
 }
@@ -206,10 +193,7 @@ void linkedListShouldPopLastNode()
 
     TEST_ASSERT_EQUAL_PTR(last->previous, list.tail);
 
-    if (*((int *)last->content) != values[expSize - 1])
-    {
-        TEST_FAIL();
-    }
+    TEST_ASSERT_EQUAL(*((int *)last->content), values[expSize - 1]);
 
     TEST_ASSERT_EQUAL(expSize - 1, list.size);
     TEST_ASSERT_EQUAL_PTR(last, lastPopped);
@@ -217,8 +201,7 @@ void linkedListShouldPopLastNode()
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize - 1; i++)
     {
-        if (*((int *)temp->content) != values[i])
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[i]);
         temp = temp->next;
     }
 }
@@ -238,10 +221,8 @@ void linkedListShouldPopNodeWithIndex()
 
     LinkedListNode *node = getWithIndex(&list, index);
     LinkedListNode *nodePopped = popWithIndex(&list, index);
-    if (*((int *)nodePopped->content) != values[index])
-    {
-        TEST_FAIL();
-    }
+
+    TEST_ASSERT_EQUAL(*((int *)nodePopped->content), values[index]);
 
     TEST_ASSERT_EQUAL(expSize - 1, list.size);
     TEST_ASSERT_EQUAL_PTR(node, nodePopped);
@@ -249,8 +230,7 @@ void linkedListShouldPopNodeWithIndex()
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize - 1; i++)
     {
-        if (*((int *)temp->content) != values[i >= index ? i + 1 : i])
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[i >= index ? i + 1 : i]);
         temp = temp->next;
     }
 }
@@ -276,10 +256,7 @@ void linkedListShouldPopNodeWithAddress()
 
     LinkedListNode *node = getWithIndex(&list, index);
     LinkedListNode *nodePopped = popWithAddress(&list, node);
-    if (*((int *)nodePopped->content) != values[index])
-    {
-        TEST_FAIL();
-    }
+    TEST_ASSERT_EQUAL(*((int *)nodePopped->content), values[index]);
 
     TEST_ASSERT_EQUAL(expSize - 1, list.size);
     TEST_ASSERT_EQUAL_PTR(node, nodePopped);
@@ -287,8 +264,7 @@ void linkedListShouldPopNodeWithAddress()
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize - 1; i++)
     {
-        if (*((int *)temp->content) != values[i >= index ? i + 1 : i])
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[i >= index ? i + 1 : i]);
         temp = temp->next;
     }
 }
@@ -309,8 +285,7 @@ void linkedListPopWithAddressShouldReturnNullIfNodeNotExistInList()
     LinkedListNode *temp = list.head;
     for (int i = 0; i < expSize; i++)
     {
-        if (*((int *)temp->content) != values[i])
-            TEST_FAIL();
+        TEST_ASSERT_EQUAL(*((int *)temp->content), values[i]);
         temp = temp->next;
     }
 }
