@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "priorityqueue.h"
 
-#define MIN_PRIORITY_QUEUE_SIZE 16
-#define MAX_PRIORITY_QUEUE_SIZE 1073741823
+// #define MIN_PRIORITY_QUEUE_SIZE 16
+// #define MAX_PRIORITY_QUEUE_SIZE 1073741823
 
 void initPriorityQueue(PriorityQueue *pq)
 {
-    Item **queue = malloc(sizeof(Item *) * MIN_PRIORITY_QUEUE_SIZE);
+    ItemPriorityQueue **queue = malloc(sizeof(ItemPriorityQueue *) * MIN_PRIORITY_QUEUE_SIZE);
     (*pq) = (PriorityQueue){.queue = queue,
                             .size = 0,
                             .capacity = MIN_PRIORITY_QUEUE_SIZE};
@@ -20,9 +20,9 @@ void printPriorityQueue(PriorityQueue pq)
     printf("\n");
 }
 
-static Item **changeCapacityPriorityQueue(Item **queue, int newCap)
+static ItemPriorityQueue **changeCapacityPriorityQueue(ItemPriorityQueue **queue, int newCap)
 {
-    Item **newQueue = (Item **)realloc(queue, sizeof(Item *) * newCap);
+    ItemPriorityQueue **newQueue = (ItemPriorityQueue **)realloc(queue, sizeof(ItemPriorityQueue *) * newCap);
     if (newQueue == NULL)
     {
         fprintf(stderr, "Memory Reallocate Failure.");
@@ -31,7 +31,7 @@ static Item **changeCapacityPriorityQueue(Item **queue, int newCap)
     return newQueue;
 }
 
-void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item *targetItem)
+static void maxHeapifyBottomUp(PriorityQueue *pq, int index, ItemPriorityQueue *targetItem)
 {
     int x = (*targetItem).key;
     if (index > (*pq).size)
@@ -46,7 +46,7 @@ void maxHeapifyBottomUp(PriorityQueue *pq, int index, Item *targetItem)
     maxHeapifyBottomUp(pq, father, targetItem);
 }
 
-void maxHeapifyTopDown(PriorityQueue *pq, int index, Item *targetItem)
+static void maxHeapifyTopDown(PriorityQueue *pq, int index, ItemPriorityQueue *targetItem)
 {
     if (index > (*pq).size)
         return;
@@ -56,12 +56,18 @@ void maxHeapifyTopDown(PriorityQueue *pq, int index, Item *targetItem)
     int right = (index * 2) + 2;
 
     if (left < (*pq).size && (*(*pq).queue[left]).key > (*targetItem).key)
-    {
         max = left;
-    }
 
-    if (right < (*pq).size && (*(*pq).queue[right]).key > (*(*pq).queue[left]).key)
-        max = right;
+    if (max == left)
+    {
+        if (right < (*pq).size && (*(*pq).queue[right]).key > (*(*pq).queue[left]).key)
+            max = right;
+    }
+    else
+    {
+        if (right < (*pq).size && (*(*pq).queue[right]).key > (*targetItem).key)
+            max = right;
+    }
 
     if (max == index)
     {
@@ -73,9 +79,9 @@ void maxHeapifyTopDown(PriorityQueue *pq, int index, Item *targetItem)
     maxHeapifyTopDown(pq, max, targetItem);
 }
 
-Item *addPriorityQueue(PriorityQueue *pq, Item *item)
+ItemPriorityQueue *addPriorityQueue(PriorityQueue *pq, ItemPriorityQueue *item)
 {
-    if ((*pq).size > (*pq).capacity)
+    if ((*pq).size >= (*pq).capacity)
     {
         if (pq->capacity == MAX_PRIORITY_QUEUE_SIZE)
         {
@@ -83,7 +89,7 @@ Item *addPriorityQueue(PriorityQueue *pq, Item *item)
             exit(EXIT_FAILURE);
         }
         int newCap = pq->capacity * 2 > MAX_PRIORITY_QUEUE_SIZE ? MAX_PRIORITY_QUEUE_SIZE : pq->capacity * 2;
-        Item **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity * 2);
+        ItemPriorityQueue **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity * 2);
         pq->queue = newQueue;
         pq->capacity = newCap;
     }
@@ -94,24 +100,28 @@ Item *addPriorityQueue(PriorityQueue *pq, Item *item)
     return item;
 }
 
-Item *extractMaxPriorityQueue(PriorityQueue *pq)
+ItemPriorityQueue *extractMaxPriorityQueue(PriorityQueue *pq)
 {
-    if ((*pq).size < (*pq).capacity * 0.25)
+    if (pq->size <= 0)
     {
-        if (pq->capacity > MIN_PRIORITY_QUEUE_SIZE)
-        {
-            int newCap = pq->capacity / 2 < MIN_PRIORITY_QUEUE_SIZE ? MIN_PRIORITY_QUEUE_SIZE : pq->capacity / 2;
-            Item **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity / 2);
-            pq->queue = newQueue;
-            pq->capacity = newCap;
-        }
+        return NULL;
     }
 
-    Item *temp = (*pq).queue[0];
+    ItemPriorityQueue *temp = (*pq).queue[0];
     (*pq).queue[0] = (*pq).queue[(*pq).size - 1];
     (*pq).queue[(*pq).size - 1] = temp;
     (*pq).size--;
     maxHeapifyTopDown(pq, 0, (*pq).queue[0]);
+    if ((*pq).size <= (*pq).capacity * 0.25)
+    {
+        if (pq->capacity > MIN_PRIORITY_QUEUE_SIZE)
+        {
+            int newCap = pq->capacity / 2 < MIN_PRIORITY_QUEUE_SIZE ? MIN_PRIORITY_QUEUE_SIZE : pq->capacity / 2;
+            ItemPriorityQueue **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity / 2);
+            pq->queue = newQueue;
+            pq->capacity = newCap;
+        }
+    }
     return temp;
 }
 

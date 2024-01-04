@@ -1,24 +1,25 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 
+#define MIN_PRIORITY_QUEUE_SIZE 16
+#define MAX_PRIORITY_QUEUE_SIZE 1073741823
+
 typedef struct
 {
     void *data;
     int key;
-} Item;
+} ItemPriorityQueue;
 
 typedef struct
 {
-    Item **queue;
+    ItemPriorityQueue **queue;
     int size;
     int capacity;
 } PriorityQueue;
 
 void initPriorityQueue(PriorityQueue *);
-void maxHeapifyBottomUp(PriorityQueue *, int, Item *);
-void maxHeapifyTopDown(PriorityQueue *, int, Item *);
-Item *addPriorityQueue(PriorityQueue *, Item *);
-Item *extractMaxPriorityQueue(PriorityQueue *);
+ItemPriorityQueue *addPriorityQueue(PriorityQueue *, ItemPriorityQueue *);
+ItemPriorityQueue *extractMaxPriorityQueue(PriorityQueue *);
 void printPriorityQueue(PriorityQueue);
 void destroyPriorityQueue(PriorityQueue *);
 

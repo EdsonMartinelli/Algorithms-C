@@ -11,23 +11,23 @@ int main()
     PriorityQueue pq;
     initPriorityQueue(&pq);
     printf("CAPACITY: %i\n", pq.capacity);
-    Item items[ITEM_NUMBER];
+    ItemPriorityQueue items[ITEM_NUMBER];
     for (int i = 0; i < ITEM_NUMBER; i++)
-        items[i] = (Item){.key = i + 1, .data = "Element"};
+        items[i] = (ItemPriorityQueue){.key = i + 1, .data = "Element"};
 
     for (int i = 0; i < ITEM_NUMBER; i++)
         addPriorityQueue(&pq, &items[i]);
 
     printPriorityQueue(pq);
     printf("CAPACITY: %i\n", pq.capacity);
-    Item *e1 = extractMaxPriorityQueue(&pq);
+    ItemPriorityQueue *e1 = extractMaxPriorityQueue(&pq);
     printf("extract item: %i\n", (*e1).key);
-    Item *e2 = extractMaxPriorityQueue(&pq);
+    ItemPriorityQueue *e2 = extractMaxPriorityQueue(&pq);
     printf("extract item: %i\n", (*e2).key);
-    Item *e3 = extractMaxPriorityQueue(&pq);
+    ItemPriorityQueue *e3 = extractMaxPriorityQueue(&pq);
     printf("extract item: %i\n", (*e3).key);
     printPriorityQueue(pq);
-    Item x = {.key = 10, .data = "New Element"};
+    ItemPriorityQueue x = {.key = 10, .data = "New Element"};
     addPriorityQueue(&pq, &x);
     printPriorityQueue(pq);
     printf("CAPACITY: %i\n", pq.capacity);
