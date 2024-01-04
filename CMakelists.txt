@@ -12,6 +12,7 @@ add_subdirectory(test/unity)
 add_subdirectory(test/tests/Vector)
 add_subdirectory(test/tests/LinkedList)
 add_subdirectory(test/tests/PriorityQueue)
+add_subdirectory(test/tests/InfinityArray)
 
 endif()
 
