@@ -6,7 +6,7 @@
 int main()
 {
     InfinityArray vec;
-    initializeInfinityArray(&vec);
+    initInfinityArray(&vec);
     int a = 1;
     int b = 2;
     int c = 10;

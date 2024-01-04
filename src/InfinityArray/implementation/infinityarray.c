@@ -3,7 +3,7 @@
 #include <string.h>
 #include "infinityarray.h"
 
-void initializeInfinityArray(InfinityArray *vec)
+void initInfinityArray(InfinityArray *vec)
 {
     void **array = (void **)malloc(sizeof(void *) * INIT_INFINITY_ARRAY_SIZE);
     if (array == NULL)
@@ -18,7 +18,7 @@ void initializeInfinityArray(InfinityArray *vec)
         .capacity = INIT_INFINITY_ARRAY_SIZE};
 }
 
-void expandInfinityArray(InfinityArray *vec, int newCap)
+static void expandInfinityArray(InfinityArray *vec, int newCap)
 {
     void **newArray = (void **)realloc(vec->array, sizeof(void *) * newCap);
     if (newArray == NULL)
@@ -31,14 +31,15 @@ void expandInfinityArray(InfinityArray *vec, int newCap)
     vec->capacity = newCap;
 }
 
-void pushInfinityArray(InfinityArray *vec, void *item)
+void *pushInfinityArray(InfinityArray *vec, void *item)
 {
 
-    if (vec->lastElementIndex >= vec->capacity)
+    if (vec->lastElementIndex + 1 >= vec->capacity)
         expandInfinityArray(vec, vec->capacity * 2);
 
     vec->array[vec->lastElementIndex + 1] = item;
     vec->lastElementIndex++;
+    return item;
 }
 
 void *popInfinityArray(InfinityArray *vec)
@@ -53,36 +54,23 @@ void *popInfinityArray(InfinityArray *vec)
     return temp;
 }
 
-void setInfinityArray(InfinityArray *vec, void *item, int index)
+void *setInfinityArray(InfinityArray *vec, void *item, int index)
 {
     if (index < 0)
-    {
-        printf("Array Out of Bounds!\n");
-        exit(EXIT_FAILURE);
-    }
+        return NULL;
+
     if (index >= vec->capacity)
-        expandInfinityArray(vec, index + (index / 2));
+        expandInfinityArray(vec, index + 1);
 
     vec->array[index] = item;
     if (index > vec->lastElementIndex)
         vec->lastElementIndex = index;
+    return item;
 }
 
 void *getInfinityArray(InfinityArray *vec, int index)
 {
-    if (index < 0)
-    {
-        printf("Array Out of Bounds!\n");
-        exit(EXIT_FAILURE);
-    }
-
-    /*if (index >= vec->capacity)
-    {
-        printf("Array Out of Bounds!\n");
-        exit(EXIT_FAILURE);
-    }*/
-
-    if (index >= vec->capacity)
+    if (index < 0 || index > vec->lastElementIndex)
         return NULL;
 
     return vec->array[index];
