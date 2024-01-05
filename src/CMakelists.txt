@@ -1,6 +1,6 @@
 message(STATUS "[Compiling] HashMap.")
-add_library(hashmap STATIC implementations/hashmap.c)
-target_link_libraries(hashmap linkedlist)
+add_library(hashmap STATIC implementations/hashmap.c $<TARGET_OBJECTS:linkedlist>)
+#target_link_libraries(hashmap linkedlist)
 
 message(STATUS "[Compiling] HeapSort.")
 add_library(heapsort STATIC implementations/heapsort.c)
