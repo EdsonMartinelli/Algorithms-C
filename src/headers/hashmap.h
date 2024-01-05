@@ -4,6 +4,7 @@
 #include "linkedlist.h"
 
 #define INIT_HASHMAP_SIZE 2
+
 typedef struct
 {
     char *key;

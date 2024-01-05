@@ -4,10 +4,10 @@
 #include "../headers/hashmap.h"
 
 // PRIVATE FUNCTIONS
-int hashFuncion(HashMap *, char *);
-void verifyLoad(HashMap *);
-void expandArray(HashMap *);
-void reallocateData(HashMap *);
+static int hashFuncion(HashMap *, char *);
+static void verifyLoad(HashMap *);
+static void expandArray(HashMap *);
+static void reallocateData(HashMap *);
 
 void initializeHashMap(HashMap *hm)
 {
@@ -20,10 +20,11 @@ void initializeHashMap(HashMap *hm)
     // memset(array, 0, sizeof(LinkedList) * INIT_HASHMAP_SIZE);
     for (int i = 0; i < INIT_HASHMAP_SIZE; i++)
         initLinkedList(&array[i]);
+
     (*hm) = (HashMap){.array = array, .size = 0, .capacity = INIT_HASHMAP_SIZE};
 }
 
-void reallocateData(HashMap *hm)
+static void reallocateData(HashMap *hm)
 {
     for (int location = 0; location < hm->capacity / 2; location++)
     {
@@ -43,7 +44,7 @@ void reallocateData(HashMap *hm)
     }
 }
 
-void expandArray(HashMap *hm)
+static void expandArray(HashMap *hm)
 {
     LinkedList *newArray = realloc(hm->array, sizeof(LinkedList) * hm->capacity * 2);
     if (newArray == NULL)
@@ -58,7 +59,7 @@ void expandArray(HashMap *hm)
     reallocateData(hm);
 }
 
-void verifyLoad(HashMap *hm)
+static void verifyLoad(HashMap *hm)
 {
     float loadFactor = 0.75;
     float currentLoad = hm->size / (float)hm->capacity;
@@ -72,7 +73,7 @@ void verifyLoad(HashMap *hm)
     }
 }
 
-int hashFuncion(HashMap *hm, char *word)
+static int hashFuncion(HashMap *hm, char *word)
 {
     int hash = 0;
     int p = 31;
@@ -85,7 +86,6 @@ int hashFuncion(HashMap *hm, char *word)
 
 HashItem *addHashMap(HashMap *hm, char *key, int value)
 {
-
     HashItem *info = (HashItem *)malloc(sizeof(HashItem));
     if (info == NULL)
     {

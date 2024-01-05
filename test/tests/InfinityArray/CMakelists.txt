@@ -1,3 +1,3 @@
-add_executable(test_infinityArray TestInfinityArray.c)
-target_link_libraries(test_infinityArray unity infinityarray)
-add_test(NAME TestInfinityArray COMMAND test_infinityArray WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)
+add_executable(test_infinityarray TestInfinityArray.c)
+target_link_libraries(test_infinityarray unity infinityarray)
+add_test(NAME TestInfinityArray COMMAND test_infinityarray WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)

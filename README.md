@@ -19,6 +19,12 @@ A output folder will be created in root with folders below:
 - **lib** : Static libraries directory; 
 - **external** : Third-party static libraries (just for tests);
 
+To test the project use:
+
+```bash
+./test.sh
+```
+<!---
 To run:
 
 ```bash
@@ -26,6 +32,9 @@ To run:
 ```
 
 The name of all algorithms are mentioned in the next section.
+-->
+
+
 
 ## Algorithms
 
