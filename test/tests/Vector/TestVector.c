@@ -35,7 +35,7 @@ static void initializeWithTheSameElement()
 
 void vectorShouldBeInitialized()
 {
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(0, vec.size);
     TEST_ASSERT_NOT_NULL(vec.array);
     TEST_ASSERT_EMPTY(vec.array);
@@ -46,7 +46,7 @@ void vectorShouldPushBackElement()
 
     initializeWithElements();
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize, vec.size);
 
     for (int i = 0; i < vec.size; i++)
@@ -65,7 +65,7 @@ void vectorShouldPopBackElement()
     void *bPop = popBackVector(&vec);
     void *aPop = popBackVector(&vec);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize - 2, vec.size);
 
     for (int i = 0; i < vec.size; i++)
@@ -87,7 +87,7 @@ void vectorShouldInsertElement()
 
     insertVector(&vec, &c, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + 1, vec.size);
 
     TEST_ASSERT_EQUAL((*(int *)(vec.array[index])), c);
@@ -116,7 +116,7 @@ void vectorShouldInsertElementInTheBegin()
 
     insertVector(&vec, &c, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + 1, vec.size);
 
     TEST_ASSERT_EQUAL((*(int *)(vec.array[index])), c);
@@ -137,7 +137,7 @@ void vectorShouldInsertElementInTheEnd()
 
     insertVector(&vec, &c, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + 1, vec.size);
 
     TEST_ASSERT_EQUAL((*(int *)(vec.array[index])), c);
@@ -159,7 +159,7 @@ void vectorShouldInsertNElements()
 
     insertNVector(&vec, &c, n, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < index; i++)
@@ -180,7 +180,7 @@ void vectorShouldInsertNElementsInTheBegin()
 
     insertNVector(&vec, &c, n, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < n; i++)
@@ -198,7 +198,7 @@ void vectorShouldInsertNElementsInTheEnd()
 
     insertNVector(&vec, &c, n, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < expSize; i++)
@@ -224,7 +224,7 @@ void vectorShouldInsertArray()
 
     insertArrayVector(&vec, array, firstIndex, lastIndex, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < index; i++)
@@ -255,7 +255,7 @@ void vectorShouldInsertArrayInTheBegin()
 
     insertArrayVector(&vec, array, firstIndex, lastIndex, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < n; i++)
@@ -283,7 +283,7 @@ void vectorShouldInsertArrayInTheEnd()
 
     insertArrayVector(&vec, array, firstIndex, lastIndex, index);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize + n, vec.size);
 
     for (int i = 0; i < expSize; i++)
@@ -304,7 +304,7 @@ void vectorShouldEraseElements()
 
     eraseVector(&vec, firstIndex, lastIndex);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(expSize - n, vec.size);
 
     for (int i = 0; i < vec.size; i++)
@@ -325,7 +325,7 @@ void vectorShouldEraseAllElements()
 
     eraseVector(&vec, firstIndex, lastIndex);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(0, vec.size);
 }
 
@@ -338,11 +338,11 @@ void vectorsShouldSwap()
     void **p2 = vec2.array;
     swapVector(&vec, &vec2);
 
-    TEST_ASSERT_EQUAL(16, vec2.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec2.capacity);
     TEST_ASSERT_EQUAL(expSize, vec2.size);
     TEST_ASSERT_EQUAL_PTR(p1, vec2.array);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(0, vec.size);
     TEST_ASSERT_EQUAL_PTR(p2, vec.array);
     freeVector(&vec2);
@@ -353,7 +353,7 @@ void vectorShouldBeClear()
     initializeWithElements();
     clearVector(&vec);
 
-    TEST_ASSERT_EQUAL(16, vec.capacity);
+    TEST_ASSERT_EQUAL(INIT_VECTOR_SIZE, vec.capacity);
     TEST_ASSERT_EQUAL(0, vec.size);
     TEST_ASSERT_EMPTY(vec.array);
 }
