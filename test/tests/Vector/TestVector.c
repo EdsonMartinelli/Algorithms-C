@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "../../Unity/unity.h"
-#include "../../../src/Vector/implementation/vector.h"
+#include "../../../src/headers/vector.h"
 
 Vector vec;
 int expSize = 6;

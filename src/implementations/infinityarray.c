@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "infinityarray.h"
+#include "../headers/infinityarray.h"
 
 void initInfinityArray(InfinityArray *vec)
 {

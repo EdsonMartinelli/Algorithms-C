@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "implementation/infinityarray.h"
+#include "../headers/infinityarray.h"
 
 int main()
 {

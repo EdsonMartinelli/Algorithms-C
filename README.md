@@ -13,10 +13,11 @@ To build this project just go to the root of application and run:
 ./build.sh
 ```
 
-A output folder will be created in root with both folders below:
+A output folder will be created in root with folders below:
 
 - **bin** : Executables files directory;
 - **lib** : Static libraries directory; 
+- **external** : Third-party static libraries (just for tests);
 
 To run:
 

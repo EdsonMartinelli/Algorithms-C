@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "implementation/heapsort.h"
+#include "../headers/heapsort.h"
+
 #define ARRAY_SIZE 10
 
 void initArray(int *, int);

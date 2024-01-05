@@ -1,6 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#define INIT_ARRAY_SIZE_VECTOR 16
+
 typedef struct
 {
     void **array;

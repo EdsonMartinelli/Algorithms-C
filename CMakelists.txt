@@ -19,11 +19,6 @@ endif()
 
 message(STATUS "[STARTING] PROJECT")
 
-add_subdirectory(src/HashMap)
-add_subdirectory(src/HeapSort)
-add_subdirectory(src/LinkedList)
-add_subdirectory(src/PriorityQueue)
-add_subdirectory(src/Vector)
-add_subdirectory(src/InfinityArray)
+add_subdirectory(src)
 
 message(STATUS "[FINISHED] PROJECT")

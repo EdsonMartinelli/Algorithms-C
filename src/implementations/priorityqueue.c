@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "priorityqueue.h"
-
-// #define MIN_PRIORITY_QUEUE_SIZE 16
-// #define MAX_PRIORITY_QUEUE_SIZE 1073741823
+#include "../headers/priorityqueue.h"
 
 void initPriorityQueue(PriorityQueue *pq)
 {
@@ -83,15 +80,9 @@ ItemPriorityQueue *addPriorityQueue(PriorityQueue *pq, ItemPriorityQueue *item)
 {
     if ((*pq).size >= (*pq).capacity)
     {
-        if (pq->capacity == MAX_PRIORITY_QUEUE_SIZE)
-        {
-            fprintf(stderr, "Maximum Queue Capacity Reached.");
-            exit(EXIT_FAILURE);
-        }
-        int newCap = pq->capacity * 2 > MAX_PRIORITY_QUEUE_SIZE ? MAX_PRIORITY_QUEUE_SIZE : pq->capacity * 2;
         ItemPriorityQueue **newQueue = changeCapacityPriorityQueue(pq->queue, pq->capacity * 2);
         pq->queue = newQueue;
-        pq->capacity = newCap;
+        pq->capacity = pq->capacity * 2;
     }
 
     (*pq).queue[(*pq).size] = item;

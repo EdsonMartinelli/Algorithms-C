@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "linkedlist.h"
+#include "../headers/linkedlist.h"
 
 void initLinkedList(LinkedList *list)
 {

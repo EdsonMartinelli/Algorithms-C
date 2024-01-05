@@ -1,8 +1,9 @@
 #ifndef HASHMAP_H
 #define HASHMAP_H
 
-#include "../../LinkedList/implementation/linkedlist.h"
+#include "linkedlist.h"
 
+#define INIT_HASHMAP_SIZE 2
 typedef struct
 {
     char *key;

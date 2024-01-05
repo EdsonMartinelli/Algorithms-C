@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "../../Unity/unity.h"
-#include "../../../src/InfinityArray/implementation/infinityarray.h"
+#include "../../../src/headers/infinityarray.h"
 #include "../../../src/Utils/utils.h"
 
 #define expSize 10

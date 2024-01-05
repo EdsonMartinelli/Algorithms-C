@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "../../Unity/unity.h"
-#include "../../../src/LinkedList/implementation/linkedlist.h"
+#include "../../../src/headers/linkedlist.h"
 #include "../../../src/Utils/utils.h"
 
 #define expSize 5

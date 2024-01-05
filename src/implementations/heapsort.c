@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "heapsort.h"
+#include "../headers/heapsort.h"
 
 static void maxHeapify(int *array, int arraySize, int index, int targetValue)
 {

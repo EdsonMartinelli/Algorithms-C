@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hashmap.h"
-
-#define INIT_ARRAY_SIZE 2
+#include "../headers/hashmap.h"
 
 // PRIVATE FUNCTIONS
 int hashFuncion(HashMap *, char *);
@@ -13,16 +11,16 @@ void reallocateData(HashMap *);
 
 void initializeHashMap(HashMap *hm)
 {
-    LinkedList *array = (LinkedList *)malloc(sizeof(LinkedList) * INIT_ARRAY_SIZE);
+    LinkedList *array = (LinkedList *)malloc(sizeof(LinkedList) * INIT_HASHMAP_SIZE);
     if (array == NULL)
     {
         printf("Memory Allocate Failure.");
         exit(EXIT_FAILURE);
     }
-    // memset(array, 0, sizeof(LinkedList) * INIT_ARRAY_SIZE);
-    for (int i = 0; i < INIT_ARRAY_SIZE; i++)
+    // memset(array, 0, sizeof(LinkedList) * INIT_HASHMAP_SIZE);
+    for (int i = 0; i < INIT_HASHMAP_SIZE; i++)
         initLinkedList(&array[i]);
-    (*hm) = (HashMap){.array = array, .size = 0, .capacity = INIT_ARRAY_SIZE};
+    (*hm) = (HashMap){.array = array, .size = 0, .capacity = INIT_HASHMAP_SIZE};
 }
 
 void reallocateData(HashMap *hm)

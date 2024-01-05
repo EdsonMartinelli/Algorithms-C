@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "../../Unity/unity.h"
-#include "../../../src/PriorityQueue/implementation/priorityqueue.h"
+#include "../../../src/headers/priorityqueue.h"
 #include "../../../src/Utils/utils.h"
 
 #define expSize 10

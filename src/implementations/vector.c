@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "vector.h"
-
-#define INIT_ARRAY_SIZE_VECTOR 16
-#define MAX_ARRAY_SIZE_VECTOR 1073741823
+#include "../headers/vector.h"
 
 void initVector(Vector *vec)
 {
@@ -21,15 +18,6 @@ void initVector(Vector *vec)
         .capacity = INIT_ARRAY_SIZE_VECTOR};
 }
 
-static void verifyMaxCapacity(Vector *vec, int nElementsAdded)
-{
-    if (vec->size + nElementsAdded - 1 >= MAX_ARRAY_SIZE_VECTOR)
-    {
-        fprintf(stderr, "Maximum Array Size Reached.");
-        exit(EXIT_FAILURE);
-    }
-}
-
 static void **changeCapacityVector(Vector *vec, int newCap)
 {
     void **newArray = (void **)realloc(vec->array, sizeof(void *) * newCap);
@@ -43,7 +31,6 @@ static void **changeCapacityVector(Vector *vec, int newCap)
 
 static void expandCapacityVector(Vector *vec, int newCap)
 {
-    newCap = newCap > MAX_ARRAY_SIZE_VECTOR ? MAX_ARRAY_SIZE_VECTOR : newCap;
     void **newArray = changeCapacityVector(vec, newCap);
     memset(newArray + vec->capacity,
            0,
@@ -61,8 +48,6 @@ static void shrinkCapacityVector(Vector *vec, int newCap)
 
 void pushBackVector(Vector *vec, void *item)
 {
-    verifyMaxCapacity(vec, 1);
-
     if (vec->size >= vec->capacity)
         expandCapacityVector(vec, vec->capacity * 2);
 
@@ -72,8 +57,6 @@ void pushBackVector(Vector *vec, void *item)
 
 void insertVector(Vector *vec, void *item, int index)
 {
-    verifyMaxCapacity(vec, 1);
-
     if (index > vec->size || index < 0)
         return;
 
@@ -89,8 +72,6 @@ void insertVector(Vector *vec, void *item, int index)
 
 void insertNVector(Vector *vec, void *item, int n, int index)
 {
-    verifyMaxCapacity(vec, n);
-
     if (index > vec->size + n - 1 || index < 0)
         return;
 
@@ -114,8 +95,6 @@ void insertArrayVector(
     int index)
 {
     int n = lastIndex - firstIndex;
-
-    verifyMaxCapacity(vec, n);
 
     if (index > vec->size || index < 0 || firstIndex > lastIndex)
         return;
@@ -187,11 +166,6 @@ void shrinkToFitVector(Vector *vec)
 
 void reserveVector(Vector *vec, int n)
 {
-    if (n > MAX_ARRAY_SIZE_VECTOR)
-    {
-        fprintf(stderr, "Minimum requested size is greater than Maximum Capacity.");
-        exit(EXIT_FAILURE);
-    }
     if (vec->capacity >= n)
         return;
 
@@ -210,12 +184,6 @@ void *atVector(Vector vec, int index)
 
 void resizeVector(Vector *vec, int n, void *initItem)
 {
-    if (n > MAX_ARRAY_SIZE_VECTOR)
-    {
-        fprintf(stderr, "Minimum requested size is greater than Maximum Capacity.");
-        exit(EXIT_FAILURE);
-    }
-
     if (n > vec->capacity)
         expandCapacityVector(vec, n);
 

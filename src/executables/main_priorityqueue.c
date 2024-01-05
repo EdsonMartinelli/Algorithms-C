@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "implementation/priorityqueue.h"
+#include "../headers/priorityqueue.h"
 
 #define ITEM_NUMBER 20
 

@@ -2,7 +2,6 @@
 #define PRIORITYQUEUE_H
 
 #define MIN_PRIORITY_QUEUE_SIZE 16
-#define MAX_PRIORITY_QUEUE_SIZE 1073741823
 
 typedef struct
 {

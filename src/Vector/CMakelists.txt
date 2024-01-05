@@ -1,6 +1,0 @@
-set(LIB_NAME "Vector")
-set(FILE_NAME "vector")
-
-message(STATUS "[Compiling] ${LIB_NAME}.")
-add_library(${FILE_NAME} STATIC implementation/${FILE_NAME}.c)
-message(STATUS "[Finished] ${LIB_NAME}.")

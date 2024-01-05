@@ -1,6 +1,0 @@
-set(LIB_NAME "Linked List")
-set(FILE_NAME "linkedlist")
-
-message(STATUS "[Compiling] ${LIB_NAME}.")
-add_library(${FILE_NAME} STATIC implementation/${FILE_NAME}.c)
-message(STATUS "[Finished] ${LIB_NAME}.")

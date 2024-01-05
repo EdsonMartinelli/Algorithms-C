@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "../../Unity/unity.h"
-#include "../../../src/HeapSort/implementation/heapsort.h"
+#include "../../../src/headers/heapsort.h"
 #include "../../../src/Utils/utils.h"
 
 #define expSize 10
