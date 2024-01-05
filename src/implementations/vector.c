@@ -5,17 +5,17 @@
 
 void initVector(Vector *vec)
 {
-    void **array = (void **)malloc(sizeof(void *) * INIT_ARRAY_SIZE_VECTOR);
+    void **array = (void **)malloc(sizeof(void *) * INIT_VECTOR_SIZE);
     if (array == NULL)
     {
         fprintf(stderr, "Memory Allocate Failure.");
         exit(EXIT_FAILURE);
     }
-    memset(array, 0, sizeof(void *) * INIT_ARRAY_SIZE_VECTOR);
+    memset(array, 0, sizeof(void *) * INIT_VECTOR_SIZE);
     *vec = (Vector){
         .array = array,
         .size = 0,
-        .capacity = INIT_ARRAY_SIZE_VECTOR};
+        .capacity = INIT_VECTOR_SIZE};
 }
 
 static void **changeCapacityVector(Vector *vec, int newCap)
@@ -150,11 +150,11 @@ void swapVector(Vector *vec1, Vector *vec2)
 
 void clearVector(Vector *vec)
 {
-    void **newArray = changeCapacityVector(vec, INIT_ARRAY_SIZE_VECTOR);
-    memset(newArray, 0, sizeof(void *) * INIT_ARRAY_SIZE_VECTOR);
+    void **newArray = changeCapacityVector(vec, INIT_VECTOR_SIZE);
+    memset(newArray, 0, sizeof(void *) * INIT_VECTOR_SIZE);
     vec->array = newArray;
     vec->size = 0;
-    vec->capacity = INIT_ARRAY_SIZE_VECTOR;
+    vec->capacity = INIT_VECTOR_SIZE;
 }
 
 void shrinkToFitVector(Vector *vec)
