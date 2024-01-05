@@ -1,6 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <stdbool.h>
+
 #define INIT_VECTOR_SIZE 16
 
 typedef struct
@@ -20,7 +22,7 @@ void eraseVector(Vector *vec, int firstIndex, int lastIndex);
 void swapVector(Vector *vec1, Vector *vec2);
 void clearVector(Vector *vec);
 void shrinkToFitVector(Vector *vec);
-int isEmptyVector(Vector *vec);
+bool isVectorEmpty(Vector vec);
 void *atVector(Vector vec, int index);
 void resizeVector(Vector *vec, int n, void *initItem);
 void freeVector(Vector *vec);

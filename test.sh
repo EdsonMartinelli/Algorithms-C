@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd build && make test
+cd build && ctest --output-on-failure

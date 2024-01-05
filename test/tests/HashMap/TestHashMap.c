@@ -3,9 +3,8 @@
 #include "../../../src/headers/hashmap.h"
 #include "../../../src/Utils/utils.h"
 
-#define expSize 10
-
 HashMap map;
+
 void setUp()
 {
     initializeHashMap(&map);
@@ -51,6 +50,79 @@ void hashmapShouldReturnNullIfKeyDoesNotExist()
     TEST_ASSERT_NULL(getHashMap(&map, "test"));
 }
 
+void hashmapShouldRemoveItemCorrectly()
+{
+    HashItem *item = addHashMap(&map, "test", 5);
+    HashItem *itemPopped = removeHashMap(&map, "test");
+
+    TEST_ASSERT_NOT_NULL(item);
+    TEST_ASSERT_NOT_NULL(itemPopped);
+    TEST_ASSERT_EQUAL_PTR(item, itemPopped);
+    TEST_ASSERT_NULL(getHashMap(&map, "test"));
+}
+
+void hashmapRemoveItemShouldReturnNullIfItemDoesNotExist()
+{
+    HashItem *itemPopped = removeHashMap(&map, "test");
+    TEST_ASSERT_NULL(itemPopped);
+}
+
+void printer(LinkedListNode node)
+{
+    printf("Key:%s; Value:%i - ", (*((HashItem *)node.content)).key, (*((HashItem *)node.content)).value);
+}
+
+void hashmapShouldIncreaseCapacityWhenItIsAlmostFullAndGetCorrecValue()
+{
+    int n = INIT_HASHMAP_SIZE;
+    char word[n][2];
+
+    for (int i = 0; i < n; i++)
+    {
+        word[i][0] = (char)(97 + i);
+        word[i][1] = '\0';
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        HashItem *item = addHashMap(&map, word[i], i);
+        TEST_ASSERT_NOT_NULL(item);
+    }
+
+    TEST_ASSERT_EQUAL(INIT_HASHMAP_SIZE * 2, map.capacity);
+
+    for (int i = 0; i < n; i++)
+    {
+        TEST_ASSERT_EQUAL(i, (*getHashMap(&map, word[i])).value);
+    }
+}
+
+void hashmapShouldRemoveTheCorrectItemAfterExpand()
+{
+    int n = INIT_HASHMAP_SIZE;
+    char word[n][2];
+
+    for (int i = 0; i < n; i++)
+    {
+        word[i][0] = (char)(97 + i);
+        word[i][1] = '\0';
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        HashItem *item = addHashMap(&map, word[i], i);
+        TEST_ASSERT_NOT_NULL(item);
+    }
+
+    TEST_ASSERT_EQUAL(INIT_HASHMAP_SIZE * 2, map.capacity);
+
+    int index = randomIntNumber(0, n, 0);
+    HashItem *itemPopped = removeHashMap(&map, word[index]);
+
+    TEST_ASSERT_NOT_NULL(itemPopped);
+    TEST_ASSERT_NULL(getHashMap(&map, word[index]));
+}
+
 int main()
 {
     UNITY_BEGIN();
@@ -58,5 +130,9 @@ int main()
     RUN_TEST(hashmapShouldAddItemAndGetCorrectValue);
     RUN_TEST(hashmapShouldReplaceValueIfItemHasAUsedKey);
     RUN_TEST(hashmapShouldReturnNullIfKeyDoesNotExist);
+    RUN_TEST(hashmapShouldRemoveItemCorrectly);
+    RUN_TEST(hashmapRemoveItemShouldReturnNullIfItemDoesNotExist);
+    RUN_TEST(hashmapShouldIncreaseCapacityWhenItIsAlmostFullAndGetCorrecValue);
+    RUN_TEST(hashmapShouldRemoveTheCorrectItemAfterExpand);
     return UNITY_END();
 }

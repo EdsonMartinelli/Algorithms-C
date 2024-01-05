@@ -1,6 +1,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
+#include <stdbool.h>
+
 typedef struct Node
 {
     void *content;
@@ -27,6 +29,7 @@ LinkedListNode *popWithAddress(LinkedList *, LinkedListNode *);
 LinkedListNode *getFirst(LinkedList *);
 LinkedListNode *getLast(LinkedList *);
 LinkedListNode *getWithIndex(LinkedList *, int);
+bool isLinkedListEmpty(LinkedList);
 void printList(LinkedList list, void (*printer)(LinkedListNode));
 
 #endif

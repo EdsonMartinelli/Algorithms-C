@@ -15,7 +15,6 @@ add_subdirectory(test/tests/PriorityQueue)
 add_subdirectory(test/tests/InfinityArray)
 add_subdirectory(test/tests/HeapSort)
 add_subdirectory(test/tests/HashMap)
-
 endif()
 
 message(STATUS "[STARTING] PROJECT")

@@ -172,9 +172,11 @@ void reserveVector(Vector *vec, int n)
     expandCapacityVector(vec, n);
 }
 
-int isEmptyVector(Vector *vec)
+bool isVectorEmpty(Vector vec)
 {
-    return vec->size == 0 ? 1 : 0;
+    if (vec.size == 0)
+        return true;
+    return false;
 }
 
 void *atVector(Vector vec, int index)

@@ -3,7 +3,7 @@
 
 #include "linkedlist.h"
 
-#define INIT_HASHMAP_SIZE 2
+#define INIT_HASHMAP_SIZE 16
 
 typedef struct
 {
@@ -21,6 +21,7 @@ typedef struct
 void initializeHashMap(HashMap *);
 HashItem *addHashMap(HashMap *, char *, int);
 HashItem *getHashMap(HashMap *, char *);
+HashItem *removeHashMap(HashMap *, char *);
 void freeHashMap(HashMap *);
 
 #endif

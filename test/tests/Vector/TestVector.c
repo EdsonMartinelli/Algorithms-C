@@ -368,14 +368,14 @@ void vectorShouldShrinkToFit()
 
 void vectorShouldReturnTrueIfItIsEmpty()
 {
-    TEST_ASSERT_EQUAL(1, isEmptyVector(&vec));
+    TEST_ASSERT_TRUE(isVectorEmpty(vec));
     TEST_ASSERT_EQUAL(0, vec.size);
 }
 
 void vectorShouldReturnFalseIfItIsNotEmpty()
 {
     initializeWithElements();
-    TEST_ASSERT_EQUAL(0, isEmptyVector(&vec));
+    TEST_ASSERT_FALSE(isVectorEmpty(vec));
     TEST_ASSERT_EQUAL(expSize, vec.size);
 }
 

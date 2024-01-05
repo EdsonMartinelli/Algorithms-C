@@ -290,6 +290,21 @@ void linkedListPopWithAddressShouldReturnNullIfNodeNotExistInList()
     }
 }
 
+void linkedListShouldReturnTrueIfItIsEmpty()
+{
+    TEST_ASSERT_TRUE(isLinkedListEmpty(list));
+    TEST_ASSERT_EQUAL(0, list.size);
+}
+
+void linkedListShouldReturnFalseIfItIsNotEmpty()
+{
+    for (int i = 0; i < expSize; i++)
+        pushInTail(&list, &nodes[i]);
+
+    TEST_ASSERT_FALSE(isLinkedListEmpty(list));
+    TEST_ASSERT_EQUAL(expSize, list.size);
+}
+
 int main()
 {
     UNITY_BEGIN();
@@ -311,5 +326,7 @@ int main()
     RUN_TEST(linkedListPopWithIndexShouldReturnNullIfIndexDoesNotExist);
     RUN_TEST(linkedListShouldPopNodeWithAddress);
     RUN_TEST(linkedListPopWithAddressShouldReturnNullIfNodeNotExistInList);
+    RUN_TEST(linkedListShouldReturnTrueIfItIsEmpty);
+    RUN_TEST(linkedListShouldReturnFalseIfItIsNotEmpty);
     return UNITY_END();
 }

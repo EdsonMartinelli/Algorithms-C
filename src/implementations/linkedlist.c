@@ -6,12 +6,6 @@ void initLinkedList(LinkedList *list)
     *list = (LinkedList){.head = NULL, .tail = NULL, .size = 0};
 }
 
-/*static LinkedListNode *createLinkedListNode(void *content)
-{
-    LinkedListNode *item = (LinkedListNode *)malloc(sizeof(LinkedListNode));
-    return item;
-}*/
-
 LinkedListNode *pushInHead(LinkedList *list, LinkedListNode *item)
 {
     (*item).previous = NULL;
@@ -230,6 +224,13 @@ LinkedListNode *getWithIndex(LinkedList *list, int index)
         return NULL;
 
     return temp;
+}
+
+bool isLinkedListEmpty(LinkedList list)
+{
+    if (list.size == 0 && list.head == NULL && list.tail == NULL)
+        return true;
+    return false;
 }
 
 void printList(LinkedList list, void (*printer)(LinkedListNode item))
