@@ -39,10 +39,8 @@ void priorityQueueShouldAddItemsCorrecty()
 
     for (int i = 0; i < (expSize - 1) / 2; i++)
     {
-        if ((*pq.queue[i]).key < (*pq.queue[(i * 2) + 1]).key)
-            TEST_FAIL();
-        if ((*pq.queue[i]).key < (*pq.queue[(i * 2) + 2]).key)
-            TEST_FAIL();
+        TEST_ASSERT_LESS_OR_EQUAL_INT32((*pq.queue[i]).key, (*pq.queue[(i * 2) + 1]).key);
+        TEST_ASSERT_LESS_OR_EQUAL_INT32((*pq.queue[i]).key, (*pq.queue[(i * 2) + 2]).key);
     }
 }
 
@@ -64,11 +62,8 @@ void priorityQueueShouldExtractTheCorrectItem()
 
     for (int i = 0; i < (expSize - 2) / 2; i++)
     {
-        if ((*pq.queue[i]).key < (*pq.queue[(i * 2) + 1]).key)
-            TEST_FAIL();
-
-        if ((*pq.queue[i]).key < (*pq.queue[(i * 2) + 2]).key)
-            TEST_FAIL();
+        TEST_ASSERT_LESS_OR_EQUAL_INT32((*pq.queue[i]).key, (*pq.queue[(i * 2) + 1]).key);
+        TEST_ASSERT_LESS_OR_EQUAL_INT32((*pq.queue[i]).key, (*pq.queue[(i * 2) + 2]).key);
     }
 }
 
@@ -91,11 +86,8 @@ void priorityQueueShouldExtractTheCorrectItemWithDefinedValues()
 
     for (int i = 0; i < (expSize - 2) / 2; i++)
     {
-        if ((*pq.queue[i]).key < (*pq.queue[(i * 2) + 1]).key)
-            TEST_FAIL();
-
-        if ((*pq.queue[i]).key < (*pq.queue[(i * 2) + 2]).key)
-            TEST_FAIL();
+        TEST_ASSERT_LESS_OR_EQUAL_INT32((*pq.queue[i]).key, (*pq.queue[(i * 2) + 1]).key);
+        TEST_ASSERT_LESS_OR_EQUAL_INT32((*pq.queue[i]).key, (*pq.queue[(i * 2) + 2]).key);
     }
 }
 
