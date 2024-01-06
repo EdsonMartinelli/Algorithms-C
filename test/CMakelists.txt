@@ -1,0 +1,25 @@
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test) 
+
+add_executable(test_hashmap tests/test_hashmap.c)
+target_link_libraries(test_hashmap unity hashmap)
+add_test(NAME TestHashMap COMMAND test_hashmap WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+
+add_executable(test_heapsort tests/test_heapsort.c)
+target_link_libraries(test_heapsort unity heapsort)
+add_test(NAME TestHeapSort COMMAND test_heapsort WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+
+add_executable(test_infinityarray tests/test_infinityarray.c)
+target_link_libraries(test_infinityarray unity infinityarray)
+add_test(NAME TestInfinityArray COMMAND test_infinityarray WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+
+add_executable(test_linkedlist tests/test_linkedlist.c)
+target_link_libraries(test_linkedlist unity linkedlist)
+add_test(NAME TestLinkedList COMMAND test_linkedlist WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+
+add_executable(test_priorityqueue tests/test_priorityqueue.c)
+target_link_libraries(test_priorityqueue unity priorityqueue)
+add_test(NAME TestPriorityQueue COMMAND test_priorityqueue WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+
+add_executable(test_vector tests/test_vector.c)
+target_link_libraries(test_vector unity vector)
+add_test(NAME TestVector COMMAND test_vector WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)

@@ -8,13 +8,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)   # Executa
 set (TARGET_GROUP production CACHE STRING "What Should I Build?")  
 if(TARGET_GROUP STREQUAL teste) 
 include(CTest)
-add_subdirectory(test/unity)
+#[[add_subdirectory(test/unity)
 add_subdirectory(test/tests/Vector)
 add_subdirectory(test/tests/LinkedList)
 add_subdirectory(test/tests/PriorityQueue)
 add_subdirectory(test/tests/InfinityArray)
 add_subdirectory(test/tests/HeapSort)
-add_subdirectory(test/tests/HashMap)
+add_subdirectory(test/tests/HashMap)]]
+
+add_subdirectory(test)
+add_subdirectory(test/unity)
 endif()
 
 message(STATUS "[STARTING] PROJECT")
