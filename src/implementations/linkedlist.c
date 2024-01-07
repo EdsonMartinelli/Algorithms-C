@@ -237,7 +237,7 @@ void printList(LinkedList list, void (*printer)(LinkedListNode item))
 {
     LinkedListNode *temp = list.head;
     if (temp == NULL)
-        printf("Empty List\n");
+        printf("Empty List");
     while (temp != NULL)
     {
         (*printer)(*temp);
