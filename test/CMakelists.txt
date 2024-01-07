@@ -1,6 +1,6 @@
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test) 
 
-add_executable(test_hashmap tests/test_hashmap.c)
+#[[add_executable(test_hashmap tests/test_hashmap.c)
 target_link_libraries(test_hashmap unity hashmap)
 add_test(NAME TestHashMap COMMAND test_hashmap WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
 
@@ -22,4 +22,25 @@ add_test(NAME TestPriorityQueue COMMAND test_priorityqueue WORKING_DIRECTORY ${P
 
 add_executable(test_vector tests/test_vector.c)
 target_link_libraries(test_vector unity vector)
-add_test(NAME TestVector COMMAND test_vector WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+add_test(NAME TestVector COMMAND test_vector WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)]]
+
+
+
+
+list(
+APPEND TEST_FILES
+"test_hashmap"
+"test_heapsort"
+"test_infinityarray"
+"test_linkedlist"
+"test_priorityqueue"
+"test_vector"
+)
+
+
+foreach(FILE_NAME IN LISTS TEST_FILES)
+    string(REPLACE "test_" "" FILE_NAME_OUTPUT ${FILE_NAME})
+    add_executable(${FILE_NAME} tests/${FILE_NAME}.c)
+    target_link_libraries(${FILE_NAME} unity ${FILE_NAME_OUTPUT})
+    add_test(NAME ${FILE_NAME_OUTPUT} COMMAND ${FILE_NAME} WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/output/test)
+endforeach()

@@ -20,7 +20,7 @@ add_library(vector STATIC implementations/vector.c)
 
 #-------------------------------------------------------------------------------
 
-add_executable(main_hashmap.out executables/main_hashmap.c)
+#[[add_executable(main_hashmap.out executables/main_hashmap.c)
 message(STATUS "[Linking] HashMap - Main.")
 target_link_libraries(main_hashmap.out hashmap)
 
@@ -42,4 +42,23 @@ target_link_libraries(main_priorityqueue.out priorityqueue)
 
 add_executable(main_vector.out executables/main_vector.c)
 message(STATUS "[Linking] Vector - Main.")
-target_link_libraries(main_vector.out vector)
+target_link_libraries(main_vector.out vector)]]
+
+
+list(
+APPEND MAIN_FILES
+"main_hashmap"
+"main_heapsort"
+"main_infinityarray"
+"main_linkedlist"
+"main_priorityqueue"
+"main_vector"
+)
+
+
+foreach(FILE_NAME IN LISTS MAIN_FILES)
+    string(REPLACE "main_" "" FILE_NAME_OUTPUT ${FILE_NAME})
+    add_executable(${FILE_NAME}.out executables/${FILE_NAME}.c)
+    message(STATUS "[Linking] ${FILE_NAME_OUTPUT}.")
+    target_link_libraries(${FILE_NAME}.out ${FILE_NAME_OUTPUT})
+endforeach()

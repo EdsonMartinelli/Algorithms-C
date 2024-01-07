@@ -6,7 +6,7 @@
 int main()
 {
     HashMap x;
-    initializeHashMap(&x);
+    initHashMap(&x);
     HashItem *test1 = addHashMap(&x, "teste", 15);
     addHashMap(&x, "morte", 5);
     addHashMap(&x, "dor", 25);
@@ -26,6 +26,6 @@ int main()
     printf("Get Value for \"a\": %i\n", (*getHashMap(&x, "a")).value);
     printf("Get Value for \"dor\": %i\n", (*getHashMap(&x, "dor")).value);
     // printf("%p %p\n", test1, test2);
-    freeHashMap(&x);
+    destroyHashMap(&x);
     return 0;
 }

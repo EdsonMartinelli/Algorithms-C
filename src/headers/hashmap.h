@@ -4,6 +4,7 @@
 #include "linkedlist.h"
 
 #define INIT_HASHMAP_SIZE 16
+#define LOAD_FACTOR_HASHMAP 0.75
 
 typedef struct
 {
@@ -18,10 +19,10 @@ typedef struct
     int capacity;
 } HashMap;
 
-void initializeHashMap(HashMap *);
+void initHashMap(HashMap *);
 HashItem *addHashMap(HashMap *, char *, int);
 HashItem *getHashMap(HashMap *, char *);
 HashItem *removeHashMap(HashMap *, char *);
-void freeHashMap(HashMap *);
+void destroyHashMap(HashMap *);
 
 #endif

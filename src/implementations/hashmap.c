@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../headers/hashmap.h"
 
-void initializeHashMap(HashMap *hm)
+void initHashMap(HashMap *hm)
 {
     LinkedList *array = (LinkedList *)malloc(sizeof(LinkedList) * INIT_HASHMAP_SIZE);
     if (array == NULL)
@@ -29,9 +29,9 @@ static int hashFuncion(HashMap *hm, char *word)
     return result;
 }
 
-static void reallocateData(HashMap *hm)
+static void reallocateData(HashMap *hm, int begin, int end)
 {
-    for (int location = 0; location < hm->capacity / 2; location++)
+    for (int location = begin; location < end; location++)
     {
         LinkedListNode *temp = hm->array[location].head;
         while (temp != NULL)
@@ -60,7 +60,24 @@ static void expandArray(HashMap *hm)
         initLinkedList(&newArray[i]);
     hm->array = newArray;
     hm->capacity = hm->capacity * 2;
-    reallocateData(hm);
+    reallocateData(hm, 0, hm->capacity / 2);
+}
+
+static void shrinkArray(HashMap *hm)
+{
+    if (hm->capacity <= INIT_HASHMAP_SIZE)
+        return;
+    int oldCapacity = hm->capacity;
+    hm->capacity = hm->capacity / 2;
+    reallocateData(hm, hm->capacity, oldCapacity);
+
+    LinkedList *newArray = realloc(hm->array, sizeof(LinkedList) * hm->capacity);
+    if (newArray == NULL)
+    {
+        fprintf(stderr, "[ERROR] Memory Allocate Failure.");
+        exit(EXIT_FAILURE);
+    }
+    hm->array = newArray;
 }
 
 static void verifyLoad(HashMap *hm)
@@ -68,8 +85,11 @@ static void verifyLoad(HashMap *hm)
     float loadFactor = 0.75;
     float currentLoad = hm->size / (float)hm->capacity;
 
-    if (currentLoad >= loadFactor)
+    if (currentLoad >= LOAD_FACTOR_HASHMAP)
         expandArray(hm);
+
+    if (currentLoad <= 1.0 - LOAD_FACTOR_HASHMAP)
+        shrinkArray(hm);
 }
 
 HashItem *addHashMap(HashMap *hm, char *key, int value)
@@ -132,6 +152,11 @@ HashItem *removeHashMap(HashMap *hm, char *key)
         if (strcmp(((HashItem *)(item->content))->key, key) == 0)
         {
             LinkedListNode *itemPopped = popWithAddress(&(hm->array[location]), item);
+            if (isLinkedListEmpty(hm->array[location]))
+            {
+                hm->size--;
+                verifyLoad(hm);
+            }
             return (HashItem *)itemPopped->content;
         }
         item = (*item).next;
@@ -139,7 +164,7 @@ HashItem *removeHashMap(HashMap *hm, char *key)
     return NULL;
 }
 
-void freeHashMap(HashMap *hm)
+void destroyHashMap(HashMap *hm)
 {
     for (int i = 0; i < hm->capacity; i++)
         while (hm->array[i].head != NULL)
