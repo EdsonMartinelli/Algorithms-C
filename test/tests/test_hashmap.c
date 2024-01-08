@@ -150,12 +150,6 @@ void hashmapShouldDecreaseCapacityWhenItHitsComplementLoadFactorAndGetCorrecValu
     TEST_ASSERT_EQUAL(n - nRemove, map.size);
     TEST_ASSERT_EQUAL(INIT_HASHMAP_SIZE, map.capacity);
 
-    /*for (int i = nRemove; i < n; i++)
-    {
-
-        TEST_ASSERT_EQUAL(values + i, (int *)getHashMap(&map, keys[i]));
-    }*/
-
     for (int i = nRemove; i < n; i++)
     {
         int *getItem = (int *)getHashMap(&map, keys[i]);
