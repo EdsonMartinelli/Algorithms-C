@@ -92,7 +92,7 @@ static void verifyLoad(HashMap *hm)
         shrinkArray(hm);
 }
 
-HashItem *addHashMap(HashMap *hm, char *key, int value)
+void *addHashMap(HashMap *hm, char *key, void *value)
 {
     HashItem *info = (HashItem *)malloc(sizeof(HashItem));
     if (info == NULL)
@@ -114,7 +114,7 @@ HashItem *addHashMap(HashMap *hm, char *key, int value)
         {
             free(temp->content);
             temp->content = info;
-            return info;
+            return info->value;
         }
         temp = (*temp).next;
     }
@@ -127,23 +127,23 @@ HashItem *addHashMap(HashMap *hm, char *key, int value)
     item->content = info;
     pushInTail(&(hm->array[location]), item);
     verifyLoad(hm);
-    return info;
+    return info->value;
 }
 
-HashItem *getHashMap(HashMap *hm, char *key)
+void *getHashMap(HashMap *hm, char *key)
 {
     int location = hashFuncion(hm, key);
     LinkedListNode *item = (hm->array[location].head);
     while (item != NULL)
     {
         if (strcmp(((HashItem *)(item->content))->key, key) == 0)
-            return (HashItem *)item->content;
+            return ((HashItem *)item->content)->value;
         item = (*item).next;
     }
     return NULL;
 }
 
-HashItem *removeHashMap(HashMap *hm, char *key)
+void *removeHashMap(HashMap *hm, char *key)
 {
     int location = hashFuncion(hm, key);
     LinkedListNode *item = (hm->array[location].head);
@@ -157,7 +157,7 @@ HashItem *removeHashMap(HashMap *hm, char *key)
                 hm->size--;
                 verifyLoad(hm);
             }
-            return (HashItem *)itemPopped->content;
+            return ((HashItem *)itemPopped->content)->value;
         }
         item = (*item).next;
     }

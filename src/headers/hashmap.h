@@ -9,7 +9,7 @@
 typedef struct
 {
     char *key;
-    int value;
+    void *value;
 } HashItem;
 
 typedef struct
@@ -20,9 +20,9 @@ typedef struct
 } HashMap;
 
 void initHashMap(HashMap *);
-HashItem *addHashMap(HashMap *, char *, int);
-HashItem *getHashMap(HashMap *, char *);
-HashItem *removeHashMap(HashMap *, char *);
+void *addHashMap(HashMap *, char *, void *);
+void *getHashMap(HashMap *, char *);
+void *removeHashMap(HashMap *, char *);
 void destroyHashMap(HashMap *);
 
 #endif

@@ -24,25 +24,38 @@ void hashmapShouldBeInitializedCorrectly()
 
 void hashmapShouldAddItemAndGetCorrectValue()
 {
-    HashItem *test1 = addHashMap(&map, "test", 5);
-    HashItem *test2 = addHashMap(&map, "test2", 15);
+    int testValue1 = 5;
+    int testValue2 = 15;
+    int *test1 = (int *)addHashMap(&map, "test", &testValue1);
+    int *test2 = (int *)addHashMap(&map, "test2", &testValue2);
 
     TEST_ASSERT_NOT_NULL(test1);
     TEST_ASSERT_NOT_NULL(test2);
 
-    TEST_ASSERT_EQUAL(5, (*getHashMap(&map, "test")).value);
-    TEST_ASSERT_EQUAL(15, (*getHashMap(&map, "test2")).value);
+    int *getItem1 = (int *)getHashMap(&map, "test");
+    int *getItem2 = (int *)getHashMap(&map, "test2");
+
+    TEST_ASSERT_EQUAL_PTR(&testValue1, getItem1);
+    TEST_ASSERT_EQUAL_PTR(&testValue2, getItem2);
+
+    TEST_ASSERT_EQUAL(testValue1, *getItem1);
+    TEST_ASSERT_EQUAL(testValue2, *getItem2);
 }
 
 void hashmapShouldReplaceValueIfItemHasAUsedKey()
 {
-    HashItem *test1 = addHashMap(&map, "test", 5);
-    HashItem *test2 = addHashMap(&map, "test", 15);
+    int testValue1 = 5;
+    int testValue2 = 15;
+    int *test1 = (int *)addHashMap(&map, "test", &testValue1);
+    int *test2 = (int *)addHashMap(&map, "test", &testValue2);
 
     TEST_ASSERT_NOT_NULL(test1);
     TEST_ASSERT_NOT_NULL(test2);
 
-    TEST_ASSERT_EQUAL(15, (*getHashMap(&map, "test")).value);
+    int *getItem = (int *)getHashMap(&map, "test");
+
+    TEST_ASSERT_EQUAL_PTR(&testValue2, getItem);
+    TEST_ASSERT_EQUAL(testValue2, *getItem);
 }
 
 void hashmapShouldReturnNullIfKeyDoesNotExist()
@@ -52,10 +65,11 @@ void hashmapShouldReturnNullIfKeyDoesNotExist()
 
 void hashmapShouldRemoveItemCorrectly()
 {
-    HashItem *item = addHashMap(&map, "test", 5);
+    int testValue = 5;
+    int *item = (int *)addHashMap(&map, "test", &testValue);
     TEST_ASSERT_EQUAL(1, map.size);
 
-    HashItem *itemPopped = removeHashMap(&map, "test");
+    int *itemPopped = (int *)removeHashMap(&map, "test");
 
     TEST_ASSERT_NOT_NULL(item);
     TEST_ASSERT_NOT_NULL(itemPopped);
@@ -66,29 +80,31 @@ void hashmapShouldRemoveItemCorrectly()
 
 void hashmapRemoveItemShouldReturnNullIfItemDoesNotExist()
 {
-    HashItem *itemPopped = removeHashMap(&map, "test");
+    void *itemPopped = removeHashMap(&map, "test");
     TEST_ASSERT_NULL(itemPopped);
 }
 
 void printer(LinkedListNode item)
 {
-    printf("Key: %s Value: %d;  ", (*((HashItem *)item.content)).key, (*((HashItem *)item.content)).value);
+    printf("Key: %s Value: %d;  ", ((HashItem *)item.content)->key, *((int *)((HashItem *)item.content)->value));
 }
 
 void hashmapShouldIncreaseCapacityWhenItHitsLoadFactorAndGetCorrecValue()
 {
     int n = (INIT_HASHMAP_SIZE * LOAD_FACTOR_HASHMAP) + 1;
-    char word[n][2];
+    char keys[n][2];
+    int values[n];
 
     for (int i = 0; i < n; i++)
     {
-        word[i][0] = (char)(97 + i);
-        word[i][1] = '\0';
+        keys[i][0] = (char)(97 + i);
+        keys[i][1] = '\0';
+        values[i] = i;
     }
 
     for (int i = 0; i < n; i++)
     {
-        HashItem *item = addHashMap(&map, word[i], i);
+        int *item = (int *)addHashMap(&map, keys[i], values + i);
         TEST_ASSERT_NOT_NULL(item);
     }
 
@@ -96,24 +112,28 @@ void hashmapShouldIncreaseCapacityWhenItHitsLoadFactorAndGetCorrecValue()
 
     for (int i = 0; i < n; i++)
     {
-        TEST_ASSERT_EQUAL(i, (*getHashMap(&map, word[i])).value);
+        int *getItem = (int *)getHashMap(&map, keys[i]);
+        TEST_ASSERT_EQUAL_PTR(values + i, getItem);
+        TEST_ASSERT_EQUAL(values[i], *getItem);
     }
 }
 
 void hashmapShouldDecreaseCapacityWhenItHitsComplementLoadFactorAndGetCorrecValue()
 {
     int n = (INIT_HASHMAP_SIZE * LOAD_FACTOR_HASHMAP) + 1;
-    char word[n][2];
+    char keys[n][2];
+    int values[n];
 
     for (int i = 0; i < n; i++)
     {
-        word[i][0] = (char)(97 + i);
-        word[i][1] = '\0';
+        keys[i][0] = (char)(97 + i);
+        keys[i][1] = '\0';
+        values[i] = i;
     }
 
     for (int i = 0; i < n; i++)
     {
-        HashItem *item = addHashMap(&map, word[i], i);
+        int *item = (int *)addHashMap(&map, keys[i], values + i);
         TEST_ASSERT_NOT_NULL(item);
     }
 
@@ -123,59 +143,74 @@ void hashmapShouldDecreaseCapacityWhenItHitsComplementLoadFactorAndGetCorrecValu
     int nRemove = n - ((INIT_HASHMAP_SIZE * 2) * (1.0 - LOAD_FACTOR_HASHMAP)) + 1;
     for (int i = 0; i < nRemove; i++)
     {
-        HashItem *item = removeHashMap(&map, word[i]);
+        int *item = (int *)removeHashMap(&map, keys[i]);
         TEST_ASSERT_NOT_NULL(item);
     }
 
     TEST_ASSERT_EQUAL(n - nRemove, map.size);
     TEST_ASSERT_EQUAL(INIT_HASHMAP_SIZE, map.capacity);
 
+    /*for (int i = nRemove; i < n; i++)
+    {
+
+        TEST_ASSERT_EQUAL(values + i, (int *)getHashMap(&map, keys[i]));
+    }*/
+
     for (int i = nRemove; i < n; i++)
     {
-        TEST_ASSERT_EQUAL(i, (*getHashMap(&map, word[i])).value);
+        int *getItem = (int *)getHashMap(&map, keys[i]);
+        TEST_ASSERT_EQUAL_PTR(values + i, getItem);
+        TEST_ASSERT_EQUAL(values[i], *getItem);
     }
 }
 
 void hashmapShouldRemoveTheCorrectItemAfterExpand()
 {
     int n = INIT_HASHMAP_SIZE;
-    char word[n][2];
+    char keys[n][2];
+    int values[n];
 
     for (int i = 0; i < n; i++)
     {
-        word[i][0] = (char)(97 + i);
-        word[i][1] = '\0';
+        keys[i][0] = (char)(97 + i);
+        keys[i][1] = '\0';
+        values[i] = i;
     }
 
     for (int i = 0; i < n; i++)
     {
-        HashItem *item = addHashMap(&map, word[i], i);
+        int *item = (int *)addHashMap(&map, keys[i], values + i);
         TEST_ASSERT_NOT_NULL(item);
     }
 
     TEST_ASSERT_EQUAL(INIT_HASHMAP_SIZE * 2, map.capacity);
 
     int index = randomIntNumber(0, n, 0);
-    HashItem *itemPopped = removeHashMap(&map, word[index]);
+    int *getItem = (int *)getHashMap(&map, keys[index]);
+    int *itemPopped = (int *)removeHashMap(&map, keys[index]);
 
     TEST_ASSERT_NOT_NULL(itemPopped);
-    TEST_ASSERT_NULL(getHashMap(&map, word[index]));
+    TEST_ASSERT_NULL(getHashMap(&map, keys[index]));
+    TEST_ASSERT_EQUAL_PTR(getItem, itemPopped);
+    TEST_ASSERT_EQUAL(*getItem, *itemPopped);
 }
 
 void hashmapShouldRemoveTheCorrectItemAfterExpandAndShrink()
 {
     int n = INIT_HASHMAP_SIZE;
-    char word[n][2];
+    char keys[n][2];
+    int values[n];
 
     for (int i = 0; i < n; i++)
     {
-        word[i][0] = (char)(97 + i);
-        word[i][1] = '\0';
+        keys[i][0] = (char)(97 + i);
+        keys[i][1] = '\0';
+        values[i] = i;
     }
 
     for (int i = 0; i < n; i++)
     {
-        HashItem *item = addHashMap(&map, word[i], i);
+        int *item = (int *)addHashMap(&map, keys[i], values + i);
         TEST_ASSERT_NOT_NULL(item);
     }
 
@@ -185,7 +220,7 @@ void hashmapShouldRemoveTheCorrectItemAfterExpandAndShrink()
     int nRemove = n - ((INIT_HASHMAP_SIZE * 2) * (1.0 - LOAD_FACTOR_HASHMAP)) + 1;
     for (int i = 0; i < nRemove; i++)
     {
-        HashItem *item = removeHashMap(&map, word[i]);
+        int *item = (int *)removeHashMap(&map, keys[i]);
         TEST_ASSERT_NOT_NULL(item);
     }
 
@@ -193,10 +228,13 @@ void hashmapShouldRemoveTheCorrectItemAfterExpandAndShrink()
     TEST_ASSERT_EQUAL(INIT_HASHMAP_SIZE, map.capacity);
 
     int index = randomIntNumber(nRemove, n, 0);
-    HashItem *itemPopped = removeHashMap(&map, word[index]);
+    int *getItem = (int *)getHashMap(&map, keys[index]);
+    int *itemPopped = (int *)removeHashMap(&map, keys[index]);
 
     TEST_ASSERT_NOT_NULL(itemPopped);
-    TEST_ASSERT_NULL(getHashMap(&map, word[index]));
+    TEST_ASSERT_NULL(getHashMap(&map, keys[index]));
+    TEST_ASSERT_EQUAL_PTR(getItem, itemPopped);
+    TEST_ASSERT_EQUAL(*getItem, *itemPopped);
 }
 
 int main()
