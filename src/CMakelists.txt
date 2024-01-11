@@ -17,6 +17,9 @@ add_library(priorityqueue STATIC implementations/priorityqueue.c)
 message(STATUS "[Compiling] Vector.")
 add_library(vector STATIC implementations/vector.c)
 
+message(STATUS "[Compiling] Binary Tree.")
+add_library(binarytree STATIC implementations/binarytree.c)
+
 
 #-------------------------------------------------------------------------------
 
@@ -45,7 +48,7 @@ message(STATUS "[Linking] Vector - Main.")
 target_link_libraries(main_vector.out vector)]]
 
 
-list(
+#[[list(
 APPEND MAIN_FILES
 "main_hashmap"
 "main_heapsort"
@@ -53,10 +56,12 @@ APPEND MAIN_FILES
 "main_linkedlist"
 "main_priorityqueue"
 "main_vector"
-)
+)]]
 
+file(GLOB MAIN_FILES executables/*.c)
 
-foreach(FILE_NAME IN LISTS MAIN_FILES)
+foreach(DIR_FILE_NAME IN LISTS MAIN_FILES)
+    get_filename_component(FILE_NAME ${DIR_FILE_NAME} NAME_WLE)
     string(REPLACE "main_" "" FILE_NAME_OUTPUT ${FILE_NAME})
     add_executable(${FILE_NAME}.out executables/${FILE_NAME}.c)
     message(STATUS "[Linking] ${FILE_NAME_OUTPUT}.")

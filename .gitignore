@@ -7,3 +7,5 @@
 /build
 /TestOfC
 /.vscode
+
+/test/tests/*.sh
