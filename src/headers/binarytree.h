@@ -19,6 +19,10 @@ typedef struct
 void initBinaryTree(BinaryTree *, int (*comparator)(void *, void *));
 BinaryTreeNode *insertBinaryTree(BinaryTree *, BinaryTreeNode *);
 bool isBinaryTreeEmpty(BinaryTree);
+BinaryTreeNode *getMinBinaryTree(BinaryTree);
+BinaryTreeNode *getMaxBinaryTree(BinaryTree);
+BinaryTreeNode *searchBinaryTree(BinaryTree, void *);
+
 void printBinaryTree(BinaryTree);
 
 #endif

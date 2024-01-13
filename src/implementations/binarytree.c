@@ -57,6 +57,50 @@ bool isBinaryTreeEmpty(BinaryTree bt)
     return false;
 }
 
+BinaryTreeNode *getMinBinaryTree(BinaryTree bt)
+{
+    if (isBinaryTreeEmpty(bt))
+        return NULL;
+
+    BinaryTreeNode *temp = bt.root;
+    while (temp->left != NULL)
+        temp = temp->left;
+    return temp;
+}
+
+BinaryTreeNode *getMaxBinaryTree(BinaryTree bt)
+{
+    if (isBinaryTreeEmpty(bt))
+        return NULL;
+
+    BinaryTreeNode *temp = bt.root;
+    while (temp->right != NULL)
+        temp = temp->right;
+    return temp;
+}
+
+BinaryTreeNode *searchBinaryTree(BinaryTree bt, void *target)
+{
+    if (isBinaryTreeEmpty(bt))
+        return NULL;
+
+    BinaryTreeNode *temp = bt.root;
+    while (temp != NULL)
+    {
+        int comp = (*bt.comparator)(temp->content, target);
+
+        if (comp == 0)
+            return temp;
+
+        if (comp > 0)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+
+    return NULL;
+}
+
 static void printBinaryTreeNode(BinaryTreeNode *node, int level)
 {
     if (node == NULL)
