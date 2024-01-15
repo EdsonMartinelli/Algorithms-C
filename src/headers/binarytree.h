@@ -23,6 +23,5 @@ BinaryTreeNode *getMinBinaryTree(BinaryTree);
 BinaryTreeNode *getMaxBinaryTree(BinaryTree);
 BinaryTreeNode *searchBinaryTree(BinaryTree, void *);
 BinaryTreeNode *removeBinaryTree(BinaryTree *, void *);
-void printBinaryTree(BinaryTree);
 
 #endif

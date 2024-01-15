@@ -260,6 +260,7 @@ BinaryTreeNode *removeBinaryTree(BinaryTree *bt, void *target)
     return removedNode;
 }
 
+/*
 static void printBinaryTreeNode(BinaryTreeNode *node, int level)
 {
     if (node == NULL)
@@ -274,3 +275,4 @@ void printBinaryTree(BinaryTree bt)
     printBinaryTreeNode(bt.root, 0);
     printf("\n");
 }
+*/
