@@ -12,6 +12,7 @@ PriorityQueue) ./output/bin/main_priorityqueue.out;;
 HeapSort) ./output/bin/main_heapsort.out;;
 Vector) ./output/bin/main_vector.out;;
 InfinityArray) ./output/bin/main_infinityarray.out;;
+BinaryTree) ./output/bin/main_binarytree.out;;
 *) echo "This folder not exists!";;
 esac
 
