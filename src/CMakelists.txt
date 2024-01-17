@@ -20,6 +20,9 @@ add_library(vector STATIC implementations/vector.c)
 message(STATUS "[Compiling] Binary Tree.")
 add_library(binarytree STATIC implementations/binarytree.c)
 
+message(STATUS "[Compiling] AVL Tree.")
+add_library(avltree STATIC implementations/avltree.c)
+
 
 #-------------------------------------------------------------------------------
 
@@ -46,17 +49,6 @@ target_link_libraries(main_priorityqueue.out priorityqueue)
 add_executable(main_vector.out executables/main_vector.c)
 message(STATUS "[Linking] Vector - Main.")
 target_link_libraries(main_vector.out vector)]]
-
-
-#[[list(
-APPEND MAIN_FILES
-"main_hashmap"
-"main_heapsort"
-"main_infinityarray"
-"main_linkedlist"
-"main_priorityqueue"
-"main_vector"
-)]]
 
 file(GLOB MAIN_FILES executables/*.c)
 

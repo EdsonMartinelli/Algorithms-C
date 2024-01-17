@@ -259,20 +259,3 @@ BinaryTreeNode *removeBinaryTree(BinaryTree *bt, void *target)
     bt->size--;
     return removedNode;
 }
-
-/*
-static void printBinaryTreeNode(BinaryTreeNode *node, int level)
-{
-    if (node == NULL)
-        return;
-    printf("Level[%i]: %i   ", level, *(int *)node->content);
-    printBinaryTreeNode(node->left, level + 1);
-    printBinaryTreeNode(node->right, level + 1);
-}
-
-void printBinaryTree(BinaryTree bt)
-{
-    printBinaryTreeNode(bt.root, 0);
-    printf("\n");
-}
-*/
