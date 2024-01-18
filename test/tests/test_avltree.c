@@ -44,10 +44,7 @@ static bool verifyTreeCorrectness(AVLTree avltree, AVLTreeNode *node)
 
     int balanceFactor = node->heightLeft - node->heightRight;
     if (balanceFactor < -1 || balanceFactor > 1)
-    {
-        printf("Father: %i - BF: %i\n", *(int *)node->content, balanceFactor);
         return false;
-    }
 
     if (node->left != NULL)
         isLeftCorrect = (*avltree.comparator)(node->content, (node->left)->content) >= 0 ? true : false;
@@ -63,10 +60,6 @@ static bool verifyTreeCorrectness(AVLTree avltree, AVLTreeNode *node)
     }
     else
     {
-        /*if (!isRightCorrect)
-            printf("Father: %i - Child: %i\n", *(int *)node->content, *(int *)(node->right)->content);
-        if (!isLeftCorrect)
-            printf("Father: %i - Child: %i\n", *(int *)node->content, *(int *)(node->left)->content);*/
         return false;
     }
 }
@@ -392,8 +385,8 @@ void avlTreeShouldRemoveNodeCorrectyWithRandomNodes()
 
     AVLTreeNode *temp = removeAVLTree(&at, &searchNumber);
     TEST_ASSERT_NOT_NULL(temp);
-    /* TEST_ASSERT_EQUAL_PTR(items + index, temp);
-     TEST_ASSERT_EQUAL(101, *(int *)temp->content);*/
+    TEST_ASSERT_EQUAL_PTR(at.root, temp);
+    TEST_ASSERT_EQUAL(*(int *)(at.root)->content, *(int *)temp->content);
 
     TEST_ASSERT_EQUAL(expSize - 1, at.size);
     TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));

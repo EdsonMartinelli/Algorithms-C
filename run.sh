@@ -13,6 +13,7 @@ HeapSort) ./output/bin/main_heapsort.out;;
 Vector) ./output/bin/main_vector.out;;
 InfinityArray) ./output/bin/main_infinityarray.out;;
 BinaryTree) ./output/bin/main_binarytree.out;;
+AVLTree) ./output/bin/main_avltree.out;;
 *) echo "This folder not exists!";;
 esac
 
