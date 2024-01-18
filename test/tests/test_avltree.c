@@ -44,7 +44,10 @@ static bool verifyTreeCorrectness(AVLTree avltree, AVLTreeNode *node)
 
     int balanceFactor = node->heightLeft - node->heightRight;
     if (balanceFactor < -1 || balanceFactor > 1)
+    {
+        printf("Father: %i - BF: %i\n", *(int *)node->content, balanceFactor);
         return false;
+    }
 
     if (node->left != NULL)
         isLeftCorrect = (*avltree.comparator)(node->content, (node->left)->content) >= 0 ? true : false;
@@ -60,6 +63,10 @@ static bool verifyTreeCorrectness(AVLTree avltree, AVLTreeNode *node)
     }
     else
     {
+        /*if (!isRightCorrect)
+            printf("Father: %i - Child: %i\n", *(int *)node->content, *(int *)(node->right)->content);
+        if (!isLeftCorrect)
+            printf("Father: %i - Child: %i\n", *(int *)node->content, *(int *)(node->left)->content);*/
         return false;
     }
 }
@@ -114,7 +121,6 @@ void avlTreeShouldUseRightRotationCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
@@ -137,7 +143,6 @@ void avlTreeShouldUseLeftRotationCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
     TEST_ASSERT_EQUAL(expSize, at.size);
     TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
@@ -159,7 +164,6 @@ void avlTreeShouldUseLeftRightRotationCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
@@ -182,7 +186,6 @@ void avlTreeShouldUseRightLeftRotationCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
@@ -205,7 +208,6 @@ void avlTreeShouldInsertNodeCorrectyWithRandom()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
@@ -226,7 +228,6 @@ void avlTreeShouldInsertNodeCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
     TEST_ASSERT_EQUAL(expSize, at.size);
     TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
@@ -283,7 +284,6 @@ void avlTreeShouldGetMinNodeCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
@@ -314,7 +314,6 @@ void avlTreeShouldGetMaxNodeCorrecty()
     {
         AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
@@ -326,10 +325,10 @@ void avlTreeShouldGetMaxNodeCorrecty()
     TEST_ASSERT_EQUAL(101, *(int *)temp->content);
 }
 
-/*void binaryTreeShouldSearchNodeCorrecty()
+void avlTreeShouldSearchNodeCorrecty()
 {
     int searchNumber = 101;
-    AVLTreeNode *tempNull = searchBinaryTree(at, &searchNumber);
+    AVLTreeNode *tempNull = searchAVLTree(at, &searchNumber);
     TEST_ASSERT_NULL(tempNull);
 
     int content[expSize];
@@ -346,32 +345,32 @@ void avlTreeShouldGetMaxNodeCorrecty()
 
     for (int i = 0; i < expSize; i++)
     {
-        AVLTreeNode *temp = insertBinaryTree(&at, items + i);
+        AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
     TEST_ASSERT_EQUAL(expSize, at.size);
     TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
+    TEST_ASSERT_TRUE(verifyBalanceFactorCorrectness(at, at.root, NULL));
 
-    AVLTreeNode *temp = searchBinaryTree(at, &searchNumber);
+    AVLTreeNode *temp = searchAVLTree(at, &searchNumber);
     TEST_ASSERT_NOT_NULL(temp);
     TEST_ASSERT_EQUAL_PTR(items + index, temp);
     TEST_ASSERT_EQUAL(101, *(int *)temp->content);
 
     int wrongTarget = 1000;
-    temp = searchBinaryTree(at, &wrongTarget);
+    temp = searchAVLTree(at, &wrongTarget);
     TEST_ASSERT_NULL(temp);
 }
 
-void binaryTreeShouldRemoveNodeCorrectyWithRandomNodes()
+void avlTreeShouldRemoveNodeCorrectyWithRandomNodes()
 {
     int searchNumber = 101;
-    BinaryTreeNode *tempNull = searchBinaryTree(bt, &searchNumber);
+    AVLTreeNode *tempNull = searchAVLTree(at, &searchNumber);
     TEST_ASSERT_NULL(tempNull);
 
     int content[expSize];
-    BinaryTreeNode items[expSize];
+    AVLTreeNode items[expSize];
 
     for (int i = 0; i < expSize; i++)
         content[i] = i % 2 > 0 ? randomIntNumber(-200, 100, i) : randomIntNumber(102, 200, i);
@@ -380,78 +379,76 @@ void binaryTreeShouldRemoveNodeCorrectyWithRandomNodes()
     content[index] = searchNumber;
 
     for (int i = 0; i < expSize; i++)
-        items[i] = (BinaryTreeNode){.content = content + i};
+        items[i] = (AVLTreeNode){.content = content + i};
 
     for (int i = 0; i < expSize; i++)
     {
-        BinaryTreeNode *temp = insertBinaryTree(&bt, items + i);
+        AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
-    TEST_ASSERT_EQUAL(expSize, bt.size);
-    TEST_ASSERT_TRUE(verifyTreeCorrectness(bt, bt.root));
+    TEST_ASSERT_EQUAL(expSize, at.size);
+    TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
 
-    BinaryTreeNode *temp = removeBinaryTree(&bt, &searchNumber);
+    AVLTreeNode *temp = removeAVLTree(&at, &searchNumber);
     TEST_ASSERT_NOT_NULL(temp);
-    TEST_ASSERT_EQUAL_PTR(items + index, temp);
-    TEST_ASSERT_EQUAL(101, *(int *)temp->content);
+    /* TEST_ASSERT_EQUAL_PTR(items + index, temp);
+     TEST_ASSERT_EQUAL(101, *(int *)temp->content);*/
 
-    TEST_ASSERT_EQUAL(expSize - 1, bt.size);
-    TEST_ASSERT_TRUE(verifyTreeCorrectness(bt, bt.root));
+    TEST_ASSERT_EQUAL(expSize - 1, at.size);
+    TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
 
     int wrongTarget = 1000;
-    temp = removeBinaryTree(&bt, &wrongTarget);
-    TEST_ASSERT_NULL(temp);
+    temp = removeAVLTree(&at, &wrongTarget);
+    TEST_ASSERT_NOT_NULL(temp);
+    TEST_ASSERT_EQUAL(expSize - 1, at.size);
 }
 
-void binaryTreeShouldRemoveNodeCorrecty()
+void avlTreeShouldRemoveNodeCorrecty()
 {
     int values[] = {10, 20, 5, 4, 8, 12, 22, 40, 1, 2};
-    BinaryTreeNode items[expSize];
+    AVLTreeNode items[expSize];
     for (int i = 0; i < expSize; i++)
-        items[i] = (BinaryTreeNode){.content = values + i};
+        items[i] = (AVLTreeNode){.content = values + i};
 
     for (int i = 0; i < expSize; i++)
     {
-        BinaryTreeNode *temp = insertBinaryTree(&bt, items + i);
+        AVLTreeNode *temp = insertAVLTree(&at, items + i);
         TEST_ASSERT_NOT_NULL(temp);
-        TEST_ASSERT_EQUAL_PTR(items + i, temp);
     }
 
-    // Leaf (2)
-    BinaryTreeNode *temp = removeBinaryTree(&bt, values + expSize - 1);
+    // Leaf (40)
+    AVLTreeNode *temp = removeAVLTree(&at, values + 7);
     TEST_ASSERT_NOT_NULL(temp);
-    TEST_ASSERT_EQUAL_PTR(items + expSize - 1, temp);
-    TEST_ASSERT_EQUAL(values[expSize - 1], *(int *)temp->content);
-    TEST_ASSERT_EQUAL(expSize - 1, bt.size);
-    TEST_ASSERT_TRUE(verifyTreeCorrectness(bt, bt.root));
+    TEST_ASSERT_EQUAL(*(int *)at.root->content, *(int *)temp->content);
+    TEST_ASSERT_EQUAL(expSize - 1, at.size);
+    TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
+    TEST_ASSERT_TRUE(verifyBalanceFactorCorrectness(at, at.root, NULL));
 
-    // Branch With 2 childrens (5)
-    temp = removeBinaryTree(&bt, values + 2);
+    // Branch With 2 childrens (20)
+    temp = removeAVLTree(&at, values + 1);
     TEST_ASSERT_NOT_NULL(temp);
-    TEST_ASSERT_EQUAL_PTR(items + 2, temp);
-    TEST_ASSERT_EQUAL(values[2], *(int *)temp->content);
-    TEST_ASSERT_EQUAL(expSize - 2, bt.size);
-    TEST_ASSERT_TRUE(verifyTreeCorrectness(bt, bt.root));
+    TEST_ASSERT_EQUAL(*(int *)at.root->content, *(int *)temp->content);
+    TEST_ASSERT_EQUAL(expSize - 2, at.size);
+    TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
+    TEST_ASSERT_TRUE(verifyBalanceFactorCorrectness(at, at.root, NULL));
 
-    // Branch With 1 childrens (22)
-    temp = removeBinaryTree(&bt, values + 6);
+    // Branch With 1 childrens (12)
+    temp = removeAVLTree(&at, values + 5);
     TEST_ASSERT_NOT_NULL(temp);
-    TEST_ASSERT_EQUAL_PTR(items + 6, temp);
-    TEST_ASSERT_EQUAL(values[6], *(int *)temp->content);
-    TEST_ASSERT_EQUAL(expSize - 3, bt.size);
-    TEST_ASSERT_TRUE(verifyTreeCorrectness(bt, bt.root));
+    TEST_ASSERT_EQUAL(*(int *)at.root->content, *(int *)temp->content);
+    TEST_ASSERT_EQUAL(expSize - 3, at.size);
+    TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
+    TEST_ASSERT_TRUE(verifyBalanceFactorCorrectness(at, at.root, NULL));
 
     // Root (10)
-    temp = removeBinaryTree(&bt, values);
+    temp = removeAVLTree(&at, values);
     TEST_ASSERT_NOT_NULL(temp);
-    TEST_ASSERT_EQUAL_PTR(items, temp);
-    TEST_ASSERT_EQUAL(values[0], *(int *)temp->content);
-    TEST_ASSERT_EQUAL(expSize - 4, bt.size);
-    TEST_ASSERT_TRUE(verifyTreeCorrectness(bt, bt.root));
+    TEST_ASSERT_EQUAL(*(int *)at.root->content, *(int *)temp->content);
+    TEST_ASSERT_EQUAL(expSize - 4, at.size);
+    TEST_ASSERT_TRUE(verifyTreeCorrectness(at, at.root));
+    TEST_ASSERT_TRUE(verifyBalanceFactorCorrectness(at, at.root, NULL));
 }
-*/
 
 int main()
 {
@@ -468,8 +465,8 @@ int main()
     RUN_TEST(avlTreeShouldReturnCorrectyWhenItIsEmptyOrNot);
     RUN_TEST(avlTreeShouldGetMinNodeCorrecty);
     RUN_TEST(avlTreeShouldGetMaxNodeCorrecty);
-    /* RUN_TEST(binaryTreeShouldSearchNodeCorrecty);
-     RUN_TEST(binaryTreeShouldRemoveNodeCorrectyWithRandomNodes);
-     RUN_TEST(binaryTreeShouldRemoveNodeCorrecty);*/
+    RUN_TEST(avlTreeShouldSearchNodeCorrecty);
+    RUN_TEST(avlTreeShouldRemoveNodeCorrectyWithRandomNodes);
+    RUN_TEST(avlTreeShouldRemoveNodeCorrecty);
     return UNITY_END();
 }

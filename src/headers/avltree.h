@@ -23,7 +23,7 @@ AVLTreeNode *insertAVLTree(AVLTree *, AVLTreeNode *);
 bool isAVLTreeEmpty(AVLTree);
 AVLTreeNode *getMinAVLTree(AVLTree);
 AVLTreeNode *getMaxAVLTree(AVLTree);
-/*AVLTreeNode *searchAVLTree(AVLTree, void *);
-AVLTreeNode *removeAVLTree(AVLTree *, void *);*/
+AVLTreeNode *searchAVLTree(AVLTree, void *);
+AVLTreeNode *removeAVLTree(AVLTree *, void *);
 
 #endif
