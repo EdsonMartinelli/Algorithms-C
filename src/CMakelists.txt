@@ -23,6 +23,9 @@ add_library(binarytree STATIC implementations/binarytree.c)
 message(STATUS "[Compiling] AVL Tree.")
 add_library(avltree STATIC implementations/avltree.c)
 
+message(STATUS "[Compiling] QuickSort.")
+add_library(quicksort STATIC implementations/quicksort.c)
+
 
 #-------------------------------------------------------------------------------
 

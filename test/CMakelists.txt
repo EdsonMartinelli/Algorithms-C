@@ -29,6 +29,9 @@ add_test(NAME TestVector COMMAND test_vector WORKING_DIRECTORY ${PROJECT_SOURCE_
 
 list(
 APPEND TEST_FILES
+"test_quicksort"
+"test_avltree"
+"test_binarytree"
 "test_hashmap"
 "test_heapsort"
 "test_infinityarray"
