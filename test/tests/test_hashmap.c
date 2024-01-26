@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "../Unity/unity.h"
 #include "../../src/headers/hashmap.h"
-#include "../../src/Utils/utils.h"
+#include "../../src/utils/utils.h"
 
 HashMap map;
 

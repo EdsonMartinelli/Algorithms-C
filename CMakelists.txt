@@ -6,7 +6,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/lib)   # Shared 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/output/bin)   # Executables
 
 set (TARGET_GROUP production CACHE STRING "What Should I Build?")  
-if(TARGET_GROUP STREQUAL teste) 
+if(TARGET_GROUP STREQUAL testbuild) 
 include(CTest)
 add_subdirectory(test)
 add_subdirectory(test/unity)

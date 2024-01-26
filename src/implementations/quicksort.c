@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "../headers/quicksort.h"
-#include "../Utils/utils.h"
+#include "../utils/utils.h"
 
 static void sort(
     void **array,
